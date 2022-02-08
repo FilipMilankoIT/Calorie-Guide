@@ -87,22 +87,25 @@ class UserEntity {
     /**
      * Gets all users.
      *
-     * @param {string} username - Username of the user that should be excluded from the result.
+     * @param {string} [excludeUsername] - Username of the user that should be excluded from the result.
      * @param {number} [limit] - Maximum number of items that should be return.
      * @param {string} [exclusiveStartKey] - The exclusive start key from which item should the scan start.
      * @return {Promise<{lastEvaluatedKey: string, items: User[]}>} - Returns array of User objects.
      */
-    getOtherUsers = async (username, limit, exclusiveStartKey) => {
+    getAllUsers = async (excludeUsername, limit, exclusiveStartKey) => {
         const params = {
             TableName: this.tableName,
-            FilterExpression: "username <> :username",
-            ExpressionAttributeValues: {
-                ":username": username
-            },
             ExpressionAttributeNames: {
                 "#role": "role"
             },
             ProjectionExpression: "username, #role, firstName, lastName, gender, birthday"
+        }
+
+        if (excludeUsername) {
+            params.FilterExpression = "username <> :username"
+            params.ExpressionAttributeValues = {
+                ":username": excludeUsername
+            }
         }
 
         if (limit) {

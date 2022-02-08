@@ -57,7 +57,7 @@ function isInteger(arg) {
  * @returns {boolean} Returns true if argument is a positive integer.
  */
 function isPositiveInteger(arg) {
-    return isInteger(arg) && arg > 0
+    return isInteger(arg) && arg >= 0
 }
 
 module.exports = {

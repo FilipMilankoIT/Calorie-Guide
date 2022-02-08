@@ -160,6 +160,14 @@ GetUsers:
           identitySource: method.request.header.Authorization
           identityValidationExpression: ${self:provider.tokenRegex}
           type: token
+        request:
+          parameters:
+            querystrings:
+              username: false
+              from: false
+              to: false
+              limit: false
+              exclusiveStartKey: false
 
 AddFood:
   handler: src/food-api/lambdas/addFoodLambda.handler
@@ -294,7 +302,6 @@ GetFood:
               from: false
               to: false
 
-
 GetFoodEntryCount:
   handler: src/report-api/lambdas/getFoodEntryCountLambda.handler
   decription: Lambda function for handling GET food entry count API requests.
@@ -328,3 +335,42 @@ GetFoodEntryCount:
             querystrings:
               from: true
               to: true
+
+GetUsersAverageCalories:
+  handler: src/report-api/lambdas/getUsersAverageCaloriesLambda.handler
+  decription: Lambda function for handling GET users average calories API requests.
+  environment:
+    foodTable: !Ref FoodTable
+    foodTableIndex: ${self:provider.foodByUsernameIndex}
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+      Resource:
+        - !Join [ "/", [ !GetAtt FoodTable.Arn, index, "${self:provider.foodByUsernameIndex}" ]]
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:Scan
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/report/user/calories/average
+        method: get
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+        request:
+          parameters:
+            querystrings:
+              username: false
+              from: false
+              to: false
+              limit: false
+              exclusiveStartKey: false

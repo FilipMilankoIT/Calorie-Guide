@@ -140,6 +140,24 @@ class FoodEntity {
     }
 
     /**
+     * Gets user's average calories count.
+     *
+     * @param {string} username
+     * @param {number} [from] - From timestamp
+     * @param {number} [to] - To timestamp
+     * @return {Promise<number>} - Returns average calories count.
+     */
+    getUserAverageCalories = async (username, from, to) => {
+        const foodList = await this.getUserFood(username, from, to)
+        if (foodList.length === 0) return 0
+        let calorieSum = 0
+        for(const food of foodList) {
+            calorieSum += food.calories
+        }
+        return calorieSum / foodList.length
+    }
+
+    /**
      * Puts new Food object to the food DynamoDB table.
      *
      * @param {Food} Food - Food object.

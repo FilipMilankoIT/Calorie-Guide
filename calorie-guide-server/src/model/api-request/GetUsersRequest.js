@@ -11,7 +11,7 @@ class GetUsersRequest extends AuthorizedRequest {
     constructor(event) {
         super(event)
         if (this.query) {
-            this.limit = this.query.limit
+            this.limit = parseInt(this.query.limit, 10)
             this.exclusiveStartKey = this.query.exclusiveStartKey
         }
         Object.freeze(this)

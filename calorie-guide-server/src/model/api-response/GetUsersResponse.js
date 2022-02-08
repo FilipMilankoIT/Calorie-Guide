@@ -17,7 +17,7 @@ class GetUsersResponse extends Response {
      * Creates a 200 response.
      *
      * @param {User[]} users - Array of User objects.
-     * @param {string} lastEvaluatedKey
+     * @param {string} [lastEvaluatedKey]
      * @returns {GetUsersResponse}
      */
     static okResponse(users, lastEvaluatedKey) {

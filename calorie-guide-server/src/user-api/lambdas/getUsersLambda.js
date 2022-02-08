@@ -36,7 +36,7 @@ module.exports.handler = async (event) => {
 
     try {
         const userEntity = new UserEntity(process.env.userTable)
-        const result = await userEntity.getOtherUsers(request.senderUsername, request.limit, request.exclusiveStartKey)
+        const result = await userEntity.getAllUsers(request.senderUsername, request.limit, request.exclusiveStartKey)
 
         console.log('Successfully retrieved all users:\n', JSON.stringify(result))
 
