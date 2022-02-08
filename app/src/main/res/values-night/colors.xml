@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Element specific colors -->
+    <color name="page_background">@color/gray900</color>
+    <color name="app_bar_background">@color/gray900</color>
+    <color name="bottom_navigation_background">@color/black</color>
+    <color name="bottom_navigation_text_default">@color/gray400</color>
+    <color name="bottom_navigation_text_selected">@color/orange200</color>
+    <color name="text">@color/white</color>
+    <color name="hint">@color/white_alpha25</color>
+    <color name="form_field_background">@color/white</color>
+    <color name="form_field_icon">@color/white</color>
+    <color name="show_icon_default">@color/white_alpha25</color>
+    <color name="show_icon_selected">@color/white</color>
+    <color name="primary_button_background">@color/orange200</color>
+    <color name="secondary_button_background">@color/orange700</color>
+</resources>

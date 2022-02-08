@@ -1,0 +1,4 @@
+rootProject.name = "CalorieGuide"
+include ':app'
+include ':calorieguide-api'
+include ':calorieguide-core'
