@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "731bede7-7470-432c-894f-a6ec642300e1",
+		"_postman_id": "cc67d01b-0bab-4844-9fb0-db53cc8ec620",
 		"name": "Calorie Guide server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1670,6 +1670,1156 @@
 									],
 									"path": [
 										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Food API",
+			"item": [
+				{
+					"name": "Add",
+					"item": [
+						{
+							"name": "Add food with 201 response",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",\r\n    \"name\": \"Pizza\",\r\n    \"timestamp\": 1644326856153,\r\n    \"calories\": 430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 201 response without username",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Pizza\",\r\n    \"timestamp\": 1644326856153,\r\n    \"calories\": 430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 400 response for invalid body format",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",,\r\n    \"name\": \"Pizza\",\r\n    \"timestamp\": 1644326856153,\r\n    \"calories\": 430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 400 response for no name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",\r\n    \"timestamp\": 1644326856153,\r\n    \"calories\": 430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 400 response for no timestamp",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",\r\n    \"name\": \"Pizza\",\r\n    \"calories\": 430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 400 response for invalid timestamp",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",\r\n    \"name\": \"Pizza\",\r\n    \"timestamp\": \"1644326856153\",\r\n    \"calories\": 430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 400 response for no calories",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",\r\n    \"name\": \"Pizza\",\r\n    \"timestamp\": 1644326856153\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food with 400 response for invalid calories",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"FilipMilanko\",\r\n    \"name\": \"Pizza\",\r\n    \"timestamp\": 1644326856153,\r\n    \"calories\": -430\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"item": [
+						{
+							"name": "Update food with 200 response",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const addFoodUrl = pm.environment.get('host') + '/food'\r",
+											"const token = pm.environment.get('token')\r",
+											"\r",
+											"const body = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Pizza\",\r",
+											"    \"timestamp\": 1644326856153,\r",
+											"    \"calories\": 430\r",
+											"}\r",
+											"\r",
+											"const addFoodRequest = {\r",
+											"    url: addFoodUrl,\r",
+											"    method: 'POST',\r",
+											"    header: {\r",
+											"        'Content-Type': 'application/json',\r",
+											"        'Authorization': `Bearer ${token}`\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify(body)\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"pm.sendRequest(addFoodRequest, (error, result) => {\r",
+											"    if (error) {\r",
+											"        console.log(error)\r",
+											"    } else {\r",
+											"        console.log(result)\r",
+											"        pm.variables.set('id', result.json().id)\r",
+											"    }\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Burger\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food/{{id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update food with 404 response for not found food entry",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Burger\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food/{{$guid}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food",
+										"{{$guid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Delete food with 200 response",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const addFoodUrl = pm.environment.get('host') + '/food'\r",
+											"const token = pm.environment.get('token')\r",
+											"\r",
+											"const body = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Pizza\",\r",
+											"    \"timestamp\": 1644326856153,\r",
+											"    \"calories\": 430\r",
+											"}\r",
+											"\r",
+											"const addFoodRequest = {\r",
+											"    url: addFoodUrl,\r",
+											"    method: 'POST',\r",
+											"    header: {\r",
+											"        'Content-Type': 'application/json',\r",
+											"        'Authorization': `Bearer ${token}`\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify(body)\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"pm.sendRequest(addFoodRequest, (error, result) => {\r",
+											"    if (error) {\r",
+											"        console.log(error)\r",
+											"    } else {\r",
+											"        console.log(result)\r",
+											"        pm.variables.set('id', result.json().id)\r",
+											"    }\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food/{{id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete food with 404 response for not found food entry",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food/{{$guid}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food",
+										"{{$guid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get food list",
+					"item": [
+						{
+							"name": "Get user's food list",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const addFoodUrl = pm.environment.get('host') + '/food'\r",
+											"const token = pm.environment.get('token')\r",
+											"\r",
+											"const foodEntry1 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Pizza\",\r",
+											"    \"timestamp\": 1644326856000,\r",
+											"    \"calories\": 430\r",
+											"}\r",
+											"\r",
+											"const foodEntry2 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Burger\",\r",
+											"    \"timestamp\": 1644326857000,\r",
+											"    \"calories\": 500\r",
+											"}\r",
+											"\r",
+											"const foodEntry3 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Apple\",\r",
+											"    \"timestamp\": 1644326858000,\r",
+											"    \"calories\": 52\r",
+											"}\r",
+											"\r",
+											"const foodList = [foodEntry1, foodEntry2, foodEntry3]\r",
+											"\r",
+											"function getAddFoodRequest(foodEntry) {\r",
+											"    return {\r",
+											"        url: addFoodUrl,\r",
+											"        method: 'POST',\r",
+											"        header: {\r",
+											"            'Content-Type': 'application/json',\r",
+											"            'Authorization': `Bearer ${token}`\r",
+											"        },\r",
+											"        body: {\r",
+											"            mode: 'raw',\r",
+											"            raw: JSON.stringify(foodEntry)\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"for (const foodEntry of foodList) {\r",
+											"    pm.sendRequest(getAddFoodRequest(foodEntry), (error, result) => {\r",
+											"        if (error) {\r",
+											"            console.log(error)\r",
+											"        } else {\r",
+											"            console.log(result)\r",
+											"            pm.variables.set('id', result.json().id)\r",
+											"        }\r",
+											"    })\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user's food list with from parameters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const addFoodUrl = pm.environment.get('host') + '/food'\r",
+											"const token = pm.environment.get('token')\r",
+											"\r",
+											"const foodEntry1 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Pizza\",\r",
+											"    \"timestamp\": 1644326856000,\r",
+											"    \"calories\": 430\r",
+											"}\r",
+											"\r",
+											"const foodEntry2 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Burger\",\r",
+											"    \"timestamp\": 1644326857000,\r",
+											"    \"calories\": 500\r",
+											"}\r",
+											"\r",
+											"const foodEntry3 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Apple\",\r",
+											"    \"timestamp\": 1644326858000,\r",
+											"    \"calories\": 52\r",
+											"}\r",
+											"\r",
+											"const foodList = [foodEntry1, foodEntry2, foodEntry3]\r",
+											"\r",
+											"function getAddFoodRequest(foodEntry) {\r",
+											"    return {\r",
+											"        url: addFoodUrl,\r",
+											"        method: 'POST',\r",
+											"        header: {\r",
+											"            'Content-Type': 'application/json',\r",
+											"            'Authorization': `Bearer ${token}`\r",
+											"        },\r",
+											"        body: {\r",
+											"            mode: 'raw',\r",
+											"            raw: JSON.stringify(foodEntry)\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"for (const foodEntry of foodList) {\r",
+											"    pm.sendRequest(getAddFoodRequest(foodEntry), (error, result) => {\r",
+											"        if (error) {\r",
+											"            console.log(error)\r",
+											"        } else {\r",
+											"            console.log(result)\r",
+											"            pm.variables.set('id', result.json().id)\r",
+											"        }\r",
+											"    })\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food?from=1644326857000",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "1644326857000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user's food list with to parameters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const addFoodUrl = pm.environment.get('host') + '/food'\r",
+											"const token = pm.environment.get('token')\r",
+											"\r",
+											"const foodEntry1 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Pizza\",\r",
+											"    \"timestamp\": 1644326856000,\r",
+											"    \"calories\": 430\r",
+											"}\r",
+											"\r",
+											"const foodEntry2 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Burger\",\r",
+											"    \"timestamp\": 1644326857000,\r",
+											"    \"calories\": 500\r",
+											"}\r",
+											"\r",
+											"const foodEntry3 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Apple\",\r",
+											"    \"timestamp\": 1644326858000,\r",
+											"    \"calories\": 52\r",
+											"}\r",
+											"\r",
+											"const foodList = [foodEntry1, foodEntry2, foodEntry3]\r",
+											"\r",
+											"function getAddFoodRequest(foodEntry) {\r",
+											"    return {\r",
+											"        url: addFoodUrl,\r",
+											"        method: 'POST',\r",
+											"        header: {\r",
+											"            'Content-Type': 'application/json',\r",
+											"            'Authorization': `Bearer ${token}`\r",
+											"        },\r",
+											"        body: {\r",
+											"            mode: 'raw',\r",
+											"            raw: JSON.stringify(foodEntry)\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"for (const foodEntry of foodList) {\r",
+											"    pm.sendRequest(getAddFoodRequest(foodEntry), (error, result) => {\r",
+											"        if (error) {\r",
+											"            console.log(error)\r",
+											"        } else {\r",
+											"            console.log(result)\r",
+											"            pm.variables.set('id', result.json().id)\r",
+											"        }\r",
+											"    })\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food?to=1644326858000",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									],
+									"query": [
+										{
+											"key": "to",
+											"value": "1644326858000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user's food list with from and to parameters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const addFoodUrl = pm.environment.get('host') + '/food'\r",
+											"const token = pm.environment.get('token')\r",
+											"\r",
+											"const foodEntry1 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Pizza\",\r",
+											"    \"timestamp\": 1644326856000,\r",
+											"    \"calories\": 430\r",
+											"}\r",
+											"\r",
+											"const foodEntry2 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Burger\",\r",
+											"    \"timestamp\": 1644326857000,\r",
+											"    \"calories\": 500\r",
+											"}\r",
+											"\r",
+											"const foodEntry3 = {\r",
+											"    \"username\": \"FilipMilanko\",\r",
+											"    \"name\": \"Apple\",\r",
+											"    \"timestamp\": 1644326858000,\r",
+											"    \"calories\": 52\r",
+											"}\r",
+											"\r",
+											"const foodList = [foodEntry1, foodEntry2, foodEntry3]\r",
+											"\r",
+											"function getAddFoodRequest(foodEntry) {\r",
+											"    return {\r",
+											"        url: addFoodUrl,\r",
+											"        method: 'POST',\r",
+											"        header: {\r",
+											"            'Content-Type': 'application/json',\r",
+											"            'Authorization': `Bearer ${token}`\r",
+											"        },\r",
+											"        body: {\r",
+											"            mode: 'raw',\r",
+											"            raw: JSON.stringify(foodEntry)\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"for (const foodEntry of foodList) {\r",
+											"    pm.sendRequest(getAddFoodRequest(foodEntry), (error, result) => {\r",
+											"        if (error) {\r",
+											"            console.log(error)\r",
+											"        } else {\r",
+											"            console.log(result)\r",
+											"            pm.variables.set('id', result.json().id)\r",
+											"        }\r",
+											"    })\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food?from=1644326857000&to=1644326858000",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "1644326857000"
+										},
+										{
+											"key": "to",
+											"value": "1644326858000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user's food list for another user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/food?username=MilankoFilip",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"food"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "MilankoFilip"
+										}
 									]
 								}
 							},

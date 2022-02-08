@@ -24,6 +24,7 @@ provider:
   tags:
     project: ${self:service}
 
+  foodByUsernameIndex: food-by-username-index
   tokenRegex: ^Bearer\s[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$
 
 functions:

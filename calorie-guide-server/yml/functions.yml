@@ -160,3 +160,134 @@ GetUsers:
           identitySource: method.request.header.Authorization
           identityValidationExpression: ${self:provider.tokenRegex}
           type: token
+
+AddFood:
+  handler: src/food-api/lambdas/addFoodLambda.handler
+  decription: Lambda function for handling POST food API requests.
+  environment:
+    foodTable: !Ref FoodTable
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:PutItem
+      Resource:
+        - !GetAtt FoodTable.Arn
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/food
+        method: post
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+
+UpdateFood:
+  handler: src/food-api/lambdas/updateFoodLambda.handler
+  decription: Lambda function for handling PATCH food/{id} API requests.
+  environment:
+    foodTable: !Ref FoodTable
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt FoodTable.Arn
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/food/{id}
+        method: patch
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+        request:
+          parameters:
+            paths:
+              id: true
+
+DeleteFood:
+  handler: src/food-api/lambdas/deleteFoodLambda.handler
+  decription: Lambda function for handling DELETE food/{id} API requests.
+  environment:
+    foodTable: !Ref FoodTable
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:DeleteItem
+      Resource:
+        - !GetAtt FoodTable.Arn
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/food/{id}
+        method: delete
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+        request:
+          parameters:
+            paths:
+              id: true
+
+GetFood:
+  handler: src/food-api/lambdas/getFoodLambda.handler
+  decription: Lambda function for handling GET food API requests.
+  environment:
+    foodTable: !Ref FoodTable
+    foodTableIndex: ${self:provider.foodByUsernameIndex}
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+      Resource:
+        - !Join [ "/", [ !GetAtt FoodTable.Arn, index, "${self:provider.foodByUsernameIndex}" ]]
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/food
+        method: get
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+        request:
+          parameters:
+            querystrings:
+              username: false

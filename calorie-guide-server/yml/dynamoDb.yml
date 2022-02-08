@@ -22,3 +22,31 @@ Resources:
         - AttributeName: "kid"
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
+
+  FoodTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:provider.stackName}-food-table
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        - AttributeName: "timestamp"
+          AttributeType: "N"
+        - AttributeName: "username"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: ${self:provider.foodByUsernameIndex}
+          KeySchema:
+            - AttributeName: "username"
+              KeyType: HASH
+            - AttributeName: "timestamp"
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 0
+            WriteCapacityUnits: 0

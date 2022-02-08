@@ -41,13 +41,23 @@ function isNonEmptyObject(arg) {
 }
 
 /**
+ * Check if an argument is an integer.
+ *
+ * @param {*} arg
+ * @returns {boolean} Returns true if argument is an integer.
+ */
+function isInteger(arg) {
+    return Number.isInteger(arg)
+}
+
+/**
  * Check if an argument is a positive integer.
  *
  * @param {*} arg
  * @returns {boolean} Returns true if argument is a positive integer.
  */
 function isPositiveInteger(arg) {
-    return Number.isInteger(arg) && arg > 0
+    return isInteger(arg) && arg > 0
 }
 
 module.exports = {
@@ -55,5 +65,6 @@ module.exports = {
     isNonEmptyString,
     isObject,
     isNonEmptyObject,
+    isInteger,
     isPositiveInteger
 }
