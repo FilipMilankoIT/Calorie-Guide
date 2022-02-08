@@ -3,9 +3,9 @@
 const UpdateUserRequest = require('../../model/api-request/UpdateUserRequest')
 const UpdateUserResponse = require('../../model/api-response/UpdateUserResponse')
 const UserEntity = require('../../databse/UserEntity')
-const Response = require('../../model/api-response/Response')
 const User = require('../../model/User')
 const Role = require('../../model/Role').Role
+const ErrorCode = require('../../model/api-response/Response').ErrorCode
 const {getRoleRank} = require('../../model/Role')
 const {logError} = require('../../utils/errorUtils')
 
@@ -29,7 +29,7 @@ module.exports.handler = async (event) => {
         request.verify()
     } catch (error) {
         logError(error)
-        return UpdateUserResponse.badRequestResponse(Response.ErrorCode.INVALID_BODY, error.message)
+        return UpdateUserResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
     }
 
     try {

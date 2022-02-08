@@ -46,7 +46,7 @@ class Response {
     static ErrorCode = Object.freeze({
         UNKNOWN: 'Unknown',
         UNAUTHORIZED: 'Unauthorized',
-        INVALID_BODY: 'InvalidBody',
+        INVALID_REQUEST: 'InvalidRequest',
         USERNAME_NOT_FOUND: 'UsernameNotFound',
         USERNAME_ALREADY_EXISTS: 'UsernameAlreadyExists',
         NO_PERMISSION: 'NoPermission'

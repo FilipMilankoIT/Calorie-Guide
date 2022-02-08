@@ -27,7 +27,7 @@
       "Content-Type": "application/json",
       "Cache-Control": "no-store"
     },
-    "body": "{\"code\":\"InvalidBody\",\"message\":\"Invalid username. Username must be a non empty string.\"}"
+    "body": "{\"code\":\"InvalidRequest\",\"message\":\"Invalid username. Username must be a non empty string.\"}"
   },
   "400ResponseInvalidPassword": {
     "statusCode": 400,
@@ -36,7 +36,7 @@
       "Content-Type": "application/json",
       "Cache-Control": "no-store"
     },
-    "body": "{\"code\":\"InvalidBody\",\"message\":\"Invalid password. Password must be at least eight characters, have at least one uppercase letter, one lowercase letter, one number and one special character.\"}"
+    "body": "{\"code\":\"InvalidRequest\",\"message\":\"Invalid password. Password must be at least eight characters, have at least one uppercase letter, one lowercase letter, one number and one special character.\"}"
   },
   "409ResponseAlreadyRegistered": {
     "statusCode": 409,

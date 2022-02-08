@@ -28,7 +28,7 @@ module.exports.handler = async (event) => {
         request.verify()
     } catch (error) {
         logError(error)
-        return AddFoodResponse.badRequestResponse(ErrorCode.INVALID_BODY, error.message)
+        return AddFoodResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
     }
 
     if (!await hasPermission(request)) {

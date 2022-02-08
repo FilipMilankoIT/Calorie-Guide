@@ -1,7 +1,8 @@
 'use strict'
 
-const GetUsersRequest = require('../../model/api-request/GetUsersRequest')
-const GetUsersResponse = require('../../model/api-response/GetUsersResponse')
+const GetFoodEntryCountRequest = require('../../model/api-request/GetFoodEntryCountRequest')
+const GetFoodEntryCountResponse = require('../../model/api-response/GetFoodEntryCountResponse')
+const FoodEntity = require('../../databse/FoodEntity')
 const UserEntity = require('../../databse/UserEntity')
 const Role = require('../../model/Role').Role
 const ErrorCode = require('../../model/api-response/Response').ErrorCode
@@ -10,7 +11,7 @@ const {logError} = require('../../utils/errorUtils')
 const ALLOWED_ROLES = new Set([Role.ADMIN])
 
 /**
- * Get users Lambda function handler for responding to GET users API requests.
+ * Get food entry count Lambda function handler for responding to GET report/food/count API requests.
  *
  * @param {Object} event - Lambda event.
  * @returns {Promise<Response>} - Returns REST API response.
@@ -21,36 +22,36 @@ module.exports.handler = async (event) => {
     let request
 
     try {
-        request = new GetUsersRequest(event)
+        request = new GetFoodEntryCountRequest(event)
         console.log("Received request:\n", JSON.stringify(request))
 
         request.verify()
     } catch (error) {
         logError(error)
-        return GetUsersResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
+        return GetFoodEntryCountResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
     }
 
     if (!await hasPermission(request)) {
-        return GetUsersResponse.forbiddenResponse()
+        return GetFoodEntryCountResponse.forbiddenResponse()
     }
 
     try {
-        const userEntity = new UserEntity(process.env.userTable)
-        const result = await userEntity.getOtherUsers(request.senderUsername, request.limit, request.exclusiveStartKey)
+        const foodEntity = new FoodEntity(process.env.foodTable)
+        const count = (await foodEntity.getAllFood(request.from, request.to)).length
 
-        console.log('Successfully retrieved all users:\n', JSON.stringify(result))
+        console.log('Successfully retrieved food entry count:', count)
 
-        return GetUsersResponse.okResponse(result.items, result.lastEvaluatedKey)
+        return GetFoodEntryCountResponse.okResponse(count)
     } catch (error) {
         logError(error)
-        return GetUsersResponse.internalErrorResponse()
+        return GetFoodEntryCountResponse.internalErrorResponse()
     }
 }
 
 /**
  *  Checks if the requester has permission for this request.
  *
- * @param {GetUsersRequest} request - GetUsersRequest object.
+ * @param {GetFoodEntryCountRequest} request - GetFoodEntryCountRequest object.
  * @returns {Promise<boolean>} - Returns Promise with true if the requester has permission and false otherwise.
  */
 async function hasPermission(request) {

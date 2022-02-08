@@ -2858,6 +2858,94 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Report API",
+			"item": [
+				{
+					"name": "Get food entry count",
+					"item": [
+						{
+							"name": "Get food entry count with 200 response",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/report/food/count",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"report",
+										"food",
+										"count"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get food entry count with 200 response from specific period",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/report/food/count?from=1644326857000&to=1644326858000",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"report",
+										"food",
+										"count"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "1644326857000"
+										},
+										{
+											"key": "to",
+											"value": "1644326858000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	]
 }

@@ -5,6 +5,7 @@ const DeleteUserResponse = require('../../model/api-response/DeleteUserResponse'
 const UserEntity = require('../../databse/UserEntity')
 const Role = require('../../model/Role').Role
 const {getRoleRank} = require('../../model/Role')
+const ErrorCode = require('../../model/api-response/Response').ErrorCode
 const {logError} = require('../../utils/errorUtils')
 
 const ALLOWED_ROLES = new Set([Role.ADMIN])
@@ -27,7 +28,7 @@ module.exports.handler = async (event) => {
         request.verify()
     } catch (error) {
         logError(error)
-        return DeleteUserResponse.badRequestResponse(Response.ErrorCode.INVALID_BODY, error.message)
+        return DeleteUserResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
     }
 
     try {

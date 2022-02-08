@@ -29,7 +29,7 @@ module.exports.handler = async (event) => {
         request.verify()
     } catch (error) {
         logError(error)
-        return UpdateFoodResponse.badRequestResponse(ErrorCode.INVALID_BODY, error.message)
+        return UpdateFoodResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
     }
 
     try {

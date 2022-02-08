@@ -26,7 +26,7 @@ module.exports.handler = async (event) => {
         request.verify()
     } catch (error) {
         logError(error)
-        return RegisterResponse.badRequestResponse(Response.ErrorCode.INVALID_BODY, error.message)
+        return RegisterResponse.badRequestResponse(Response.ErrorCode.INVALID_REQUEST, error.message)
     }
 
     const userEntity = new UserEntity(process.env.userTable)

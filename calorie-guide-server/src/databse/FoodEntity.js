@@ -48,11 +48,40 @@ class FoodEntity {
     /**
      * Gets all food entries.
      *
+     * @param {number} [from] - From timestamp
+     * @param {number} [to] - To timestamp
      * @return {Promise<Food[]>} - Returns array of Food objects.
      */
-    getAllFood = async () => {
+    getAllFood = async (from, to) => {
         const params = {
             TableName: this.tableName
+        }
+
+        if (from && to) {
+            params.FilterExpression = "#timestamp between :from and :to"
+            params.ExpressionAttributeNames = {
+                "#timestamp": "timestamp"
+            }
+            params.ExpressionAttributeValues =  {
+                ":from": from,
+                ":to": to
+            }
+        } else if (from) {
+            params.FilterExpression = "#timestamp >= :from"
+            params.ExpressionAttributeNames = {
+                "#timestamp": "timestamp"
+            }
+            params.ExpressionAttributeValues =  {
+                ":from": from
+            }
+        } else if (to) {
+            params.FilterExpression = "#timestamp <= :to"
+            params.ExpressionAttributeNames = {
+                "#timestamp": "timestamp"
+            }
+            params.ExpressionAttributeValues =  {
+                ":to": to
+            }
         }
 
         try {

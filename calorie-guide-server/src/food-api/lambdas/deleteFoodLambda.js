@@ -28,7 +28,7 @@ module.exports.handler = async (event) => {
         request.verify()
     } catch (error) {
         logError(error)
-        return DeleteFoodResponse.badRequestResponse(ErrorCode.INVALID_BODY, error.message)
+        return DeleteFoodResponse.badRequestResponse(ErrorCode.INVALID_REQUEST, error.message)
     }
 
     try {

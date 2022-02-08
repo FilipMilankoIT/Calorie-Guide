@@ -291,3 +291,40 @@ GetFood:
           parameters:
             querystrings:
               username: false
+              from: false
+              to: false
+
+
+GetFoodEntryCount:
+  handler: src/report-api/lambdas/getFoodEntryCountLambda.handler
+  decription: Lambda function for handling GET food entry count API requests.
+  environment:
+    foodTable: !Ref FoodTable
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Scan
+      Resource:
+        - !GetAtt FoodTable.Arn
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/report/food/count
+        method: get
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+        request:
+          parameters:
+            querystrings:
+              from: true
+              to: true
