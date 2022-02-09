@@ -14,7 +14,7 @@ import com.example.calorieguide.ui.adapters.MySpinnerAdapter
 import com.example.calorieguide.ui.dialogs.DecisionDialogFragment
 import com.example.calorieguide.ui.dialogs.DialogListener
 import com.example.calorieguide.ui.utils.DatePicker
-import com.example.calorieguide.utils.TimeUtils.toFormattedUTCDate
+import com.example.calorieguide.utils.TimeUtils.toFormattedDate
 import com.example.core.model.Gender
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +58,7 @@ class ProfileFragment : Fragment(), AdapterView.OnItemSelectedListener, DialogLi
 
         viewModel.birthday.observe(viewLifecycleOwner) {
             if (it != null) {
-                binding.birthday.setText(it.toFormattedUTCDate())
+                binding.birthday.setText(it.toFormattedDate())
             }
         }
 

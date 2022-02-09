@@ -10,31 +10,31 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.calorieguide.databinding.FragmentFoodPageBinding
+import com.example.calorieguide.databinding.FragmentFilterFoodPageBinding
 import com.example.calorieguide.ui.recyclerview.food.FoodListAdapter
+import com.example.calorieguide.ui.utils.DatePicker
+import com.example.calorieguide.utils.TimeUtils.DAY
+import com.example.calorieguide.utils.TimeUtils.SECOND
+import com.example.calorieguide.utils.TimeUtils.toFormattedDate
+import com.example.calorieguide.utils.TimeUtils.toLocalTime
 import com.example.core.model.Food
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FoodPageFragment : Fragment() {
+class FilterFoodPageFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val viewModel: FoodPageViewModel by viewModels()
 
-    private var _binding: FragmentFoodPageBinding? = null
+    private var _binding: FragmentFilterFoodPageBinding? = null
     private val binding get() = _binding!!
-
-    companion object {
-        const val START_TIME_KEY = "start_time_key"
-        const val END_TIME_KEY = "end_time_key"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFoodPageBinding.inflate(inflater, container, false)
+        _binding = FragmentFilterFoodPageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -50,17 +50,9 @@ class FoodPageFragment : Fragment() {
             this.adapter = adapter
         }
 
-        val startTime = arguments?.getLong(START_TIME_KEY)
-        val endTime = arguments?.getLong(END_TIME_KEY)
-
         val listObserver = Observer<PagedList<Food>> {
             adapter.submitList(it)
             binding.emptyListMessage.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-        }
-
-        if (startTime != null && endTime != null) {
-            homeViewModel.refreshData(startTime, endTime)
-            viewModel.initList(startTime, endTime, viewLifecycleOwner, listObserver)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -72,6 +64,35 @@ class FoodPageFragment : Fragment() {
             if (isRefreshing) {
                 viewModel.updateList(viewLifecycleOwner, listObserver)
             }
+        }
+
+        binding.listHeader.fromButton.text = viewModel.getStartTime().toFormattedDate()
+        binding.listHeader.fromButton.setOnClickListener {
+            val datePicker = DatePicker.get(viewModel.getStartTime(), true)
+            datePicker.addOnPositiveButtonClickListener {
+                if (it != null) {
+                    val fromTime = it.toLocalTime()
+                    viewModel.initList(fromTime, viewModel.getEndTime(), viewLifecycleOwner, listObserver)
+                    homeViewModel.refreshData(fromTime, viewModel.getEndTime())
+                    binding.listHeader.fromButton.text = fromTime.toFormattedDate()
+                }
+            }
+            datePicker.show(childFragmentManager, "FromDatePicker")
+        }
+
+        binding.listHeader.toButton.text = viewModel.getEndTime().toFormattedDate()
+        binding.listHeader.toButton.setOnClickListener {
+            val datePicker = DatePicker.get(viewModel.getEndTime(), true)
+            datePicker.addOnPositiveButtonClickListener {
+                if (it != null) {
+                    val toTime = it.toLocalTime() + DAY - SECOND
+                    viewModel.initList(viewModel.getStartTime(), toTime, viewLifecycleOwner,
+                        listObserver)
+                    homeViewModel.refreshData(viewModel.getStartTime(), toTime)
+                    binding.listHeader.toButton.text = toTime.toFormattedDate()
+                }
+            }
+            datePicker.show(childFragmentManager, "ToDatePicker")
         }
     }
 

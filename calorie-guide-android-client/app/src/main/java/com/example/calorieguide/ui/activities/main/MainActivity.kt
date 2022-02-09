@@ -5,12 +5,14 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.calorieguide.R
 import com.example.calorieguide.databinding.ActivityMainBinding
 import com.example.calorieguide.ui.activities.auth.AuthActivity
+import com.example.calorieguide.ui.utils.OnBackPressedListener
 import com.example.core.repository.Repository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -62,5 +64,20 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        invalidateOptionsMenu()
+    }
+
+    override fun onBackPressed() {
+        val navFragment = supportFragmentManager.findFragmentById(R.id.nav_host)
+        if (navFragment is NavHostFragment) {
+            when (val fragment = navFragment.getChildFragmentManager().fragments[0]) {
+                is OnBackPressedListener -> {
+                    if (!fragment.onBackPressed()) super.onBackPressed()
+                    return
+                }
+            }
+        }
+        super.onBackPressed()
     }
 }

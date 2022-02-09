@@ -15,12 +15,6 @@ object TimeUtils {
         return formatter.format(Date(this))
     }
 
-    fun Long.toFormattedUTCDate(): String {
-        val formatter = SimpleDateFormat("dd.MM.yyyy.", Locale.getDefault())
-        formatter.timeZone = TimeZone.getTimeZone("UTC")
-        return formatter.format(Date(this))
-    }
-
     fun Long.toFormattedTime(): String {
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
         return formatter.format(Date(this))
@@ -33,5 +27,15 @@ object TimeUtils {
         cal[Calendar.MINUTE] = 0
         cal[Calendar.SECOND] = 0
         return cal.timeInMillis
+    }
+
+    fun Long.toUTCTime(): Long {
+        val tz = TimeZone.getDefault()
+        return this + tz.getOffset(Date().time)
+    }
+
+    fun Long.toLocalTime(): Long {
+        val tz = TimeZone.getDefault()
+        return this - tz.getOffset(Date().time)
     }
 }

@@ -39,6 +39,7 @@
 
     <!-- Home fragment -->
     <string name="home_label">Home</string>
+    <string name="search_label">Search</string>
     <string name="calories_count">%d cal</string>
     <string name="empty_food_list">No food entries found from this period</string>
 
@@ -57,4 +58,5 @@
     <string name="delete_dialog_title">Delete Account</string>
     <string name="delete_dialog_text">Are you sure you want to delete your account?</string>
     <string name="cancel_label">Cancel</string>
+    <string name="dash">-</string>
 </resources>
