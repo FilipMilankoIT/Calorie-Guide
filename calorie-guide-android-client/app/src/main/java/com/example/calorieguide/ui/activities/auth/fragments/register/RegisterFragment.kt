@@ -15,7 +15,7 @@ import com.example.calorieguide.databinding.FragmentRegisterBinding
 import com.example.calorieguide.ui.adapters.MySpinnerAdapter
 import com.example.calorieguide.ui.utils.DatePicker
 import com.example.calorieguide.ui.utils.StyleUtils.setBackgroundTint
-import com.example.calorieguide.utils.TimeUtils.toFormattedDate
+import com.example.calorieguide.utils.TimeUtils.toFormattedUTCDate
 import com.example.core.model.Gender
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -114,7 +114,7 @@ class RegisterFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         viewModel.birthday.observe(viewLifecycleOwner) {
             if (it != null) {
-                binding.birthday.setText(it.toFormattedDate())
+                binding.birthday.setText(it.toFormattedUTCDate())
             }
         }
 

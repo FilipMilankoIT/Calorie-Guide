@@ -13,5 +13,7 @@
     <color name="show_icon_default">@color/white_alpha25</color>
     <color name="show_icon_selected">@color/white</color>
     <color name="primary_button_background">@color/orange200</color>
-    <color name="secondary_button_background">@color/orange700</color>
+    <color name="secondary_button_background">@color/red500</color>
+    <color name="list_item_divider">@color/white_alpha25</color>
+    <color name="list_header_background">@color/gray900</color>
 </resources>

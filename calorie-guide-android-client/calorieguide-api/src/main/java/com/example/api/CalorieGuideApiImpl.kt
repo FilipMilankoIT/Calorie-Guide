@@ -6,6 +6,7 @@ import com.example.api.model.requests.LoginRequestDTO
 import com.example.api.model.requests.RegisterRequestDTO
 import com.example.api.model.requests.UpdateProfileRequestDTO
 import com.example.api.model.responses.ErrorResponseDTO
+import com.example.api.model.responses.GetFoodListResponse
 import com.example.api.model.responses.LoginResponseDTO
 import com.example.api.model.responses.ResponseDTO
 import com.google.gson.Gson
@@ -55,6 +56,14 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
         username: String
     ): ApiResult<ResponseDTO> =
         getResponse { service.deleteUser(authorization, username) }
+
+    override suspend fun getFoodList(
+        authorization: String,
+        username: String?,
+        from: Long?,
+        to: Long?
+    ): ApiResult<GetFoodListResponse> =
+        getResponse { service.getFoodList(authorization, username, from, to) }
 
     private suspend fun <T> getResponse(apiCall: suspend () -> Response<T>): ApiResult<T> {
         try {

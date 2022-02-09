@@ -98,4 +98,7 @@ dependencies {
 
     // Splashscreen
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+    // Room
+    implementation "androidx.paging:paging-runtime-ktx:2.1.2"
 }

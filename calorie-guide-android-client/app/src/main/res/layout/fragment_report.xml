@@ -5,10 +5,10 @@
     android:layout_width="@dimen/page_width"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context=".ui.activities.main.fragments.dashboard.DashboardFragment">
+    tools:context=".ui.activities.main.fragments.report.ReportFragment">
 
     <TextView
-        android:id="@+id/text_dashboard"
+        android:id="@+id/text_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

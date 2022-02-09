@@ -39,9 +39,11 @@
 
     <!-- Home fragment -->
     <string name="home_label">Home</string>
+    <string name="calories_count">%d cal</string>
+    <string name="empty_food_list">No food entries found from this period</string>
 
-    <!-- Dashboard fragment -->
-    <string name="dashboard_label">Dashboard</string>
+    <!-- Report fragment -->
+    <string name="report_label">Report</string>
 
     <!-- Profile fragment -->
     <string name="profile_label">Profile</string>

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.calorieguide.ui.activities.main.fragments.dashboard.DashboardFragment"
-        android:label="@string/dashboard_label"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_report"
+        android:name="com.example.calorieguide.ui.activities.main.fragments.report.ReportFragment"
+        android:label="@string/report_label"
+        tools:layout="@layout/fragment_report" />
 
     <fragment
         android:id="@+id/navigation_profile"

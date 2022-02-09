@@ -55,4 +55,28 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:fontFamily">@font/poppins_semi_bold</item>
     </style>
+
+    <style name="list_item_name_text">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="list_item_time_text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="list_item_number_text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/amber400</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="list_header_text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
 </resources>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Color palette -->
     <color name="orange200">#ff7539</color>
     <color name="orange400">#ff3d00</color>
     <color name="orange700">#c30000</color>
+    <color name="red500">#f05545</color>
+    <color name="red900">#B71C1C</color>
     <color name="amber200">#fffd61</color>
     <color name="amber400">#ffca28</color>
     <color name="amber700">#c79a00</color>
@@ -25,10 +28,12 @@
     <color name="bottom_navigation_text_selected">@color/orange400</color>
     <color name="text">@color/gray900</color>
     <color name="hint">@color/gray400</color>
-    <color name="form_field_background">@color/orange700</color>
+    <color name="form_field_background">@color/gray900</color>
     <color name="form_field_icon">@color/gray800</color>
     <color name="show_icon_default">@color/gray300</color>
     <color name="show_icon_selected">@color/gray800</color>
-    <color name="primary_button_background">@color/amber400</color>
-    <color name="secondary_button_background">@color/orange700</color>
+    <color name="primary_button_background">@color/orange400</color>
+    <color name="secondary_button_background">@color/red900</color>
+    <color name="list_item_divider">@color/gray400</color>
+    <color name="list_header_background">@color/orange200</color>
 </resources>

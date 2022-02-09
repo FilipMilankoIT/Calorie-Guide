@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_profile
+                R.id.navigation_home, R.id.navigation_report, R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             when (destination.id) {
                 R.id.navigation_home -> R.string.home_label
-                R.id.navigation_dashboard -> R.string.dashboard_label
+                R.id.navigation_report -> R.string.report_label
                 R.id.navigation_profile -> R.string.profile_label
                 else -> null
             }?.let {
