@@ -20,6 +20,8 @@
     <string name="birthday_label">Birthday</string>
     <string name="birthday_hint">DD.MM.YYYY.</string>
     <string name="gender_label">Gender</string>
+    <string name="daily_calorie_limit_label">Daily calorie limit</string>
+    <string name="error_daily_calorie_limit">Daily calorie limit is required</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="invalid_password">Password must be at least eight characters, have at least one uppercase letter, one lowercase letter, one number and one special character</string>
     <string name="invalid_confirm_password">Password do not match</string>
@@ -43,6 +45,8 @@
     <string name="search_label">Search</string>
     <string name="calories_count">%d kcal</string>
     <string name="empty_food_list">No food entries found from this period</string>
+    <string name="calorie_count_title">Calorie count</string>
+    <string name="slash">/</string>
 
     <!-- Report fragment -->
     <string name="report_label">Report</string>

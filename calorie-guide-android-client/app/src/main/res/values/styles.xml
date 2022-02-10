@@ -80,7 +80,7 @@
 
     <style name="list_item_number_text">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/amber400</item>
+        <item name="android:textColor">@color/calorie_count</item>
         <item name="android:fontFamily">@font/poppins_semi_bold</item>
     </style>
 

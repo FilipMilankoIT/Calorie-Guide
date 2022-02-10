@@ -7,5 +7,6 @@ internal fun UpdateProfileRequest.toDTO() = UpdateProfileRequestDTO(
     profile.firstName,
     profile.lastName,
     profile.gender?.value,
-    profile.birthday
+    profile.birthday,
+    profile.dailyCalorieLimit
 )

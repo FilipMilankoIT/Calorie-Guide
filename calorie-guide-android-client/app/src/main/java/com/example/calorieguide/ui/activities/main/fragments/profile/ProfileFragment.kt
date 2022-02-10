@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.calorieguide.R
 import com.example.calorieguide.databinding.FragmentProfileBinding
 import com.example.calorieguide.ui.adapters.MySpinnerAdapter
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : Fragment(), AdapterView.OnItemSelectedListener, DialogListener {
 
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by activityViewModels()
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -39,10 +39,11 @@ class ProfileFragment : Fragment(), AdapterView.OnItemSelectedListener, DialogLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.profile?.let {
+        viewModel.profile.value?.let {
             binding.username.setText(it.username)
             binding.firstName.setText(it.firstName)
             binding.lastName.setText(it.lastName)
+            binding.dailyCalorieLimit.setText(it.dailyCalorieLimit.toString())
         }
 
         binding.birthday.setOnClickListener {
@@ -79,10 +80,15 @@ class ProfileFragment : Fragment(), AdapterView.OnItemSelectedListener, DialogLi
             binding.gender.setSelection(position)
         }
 
+        viewModel.errorCalorieLimit.observe(viewLifecycleOwner) {
+            binding.dailyCalorieLimit.error = if (it != null) getString(it) else null
+        }
+
         binding.saveButton.setOnClickListener {
             val firstName = binding.firstName.text.toString()
             val lastName = binding.lastName.text.toString()
-            viewModel.save(firstName, lastName)
+            val dailyCalorieLimit = binding.dailyCalorieLimit.text.toString().toIntOrNull()
+            viewModel.save(firstName, lastName, dailyCalorieLimit)
         }
 
         viewModel.profileUpdated.observe(viewLifecycleOwner) {

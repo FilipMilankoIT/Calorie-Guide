@@ -19,12 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val profile = repository.getProfile()
+    private val _profile = MutableLiveData<Profile?>(repository.getProfile())
+    val profile: LiveData<Profile?> = _profile
 
-    private val _gender = MutableLiveData<Gender?>(profile?.gender)
+    private val _gender = MutableLiveData<Gender?>(profile.value?.gender)
     val gender: LiveData<Gender?> = _gender
 
-    private val _birthday = MutableLiveData<Long?>(profile?.birthday)
+    private val _birthday = MutableLiveData<Long?>(profile.value?.birthday)
     val birthday: LiveData<Long?> = _birthday
 
     private val _profileUpdated = SingleLiveEvent<Boolean>()
@@ -32,6 +33,9 @@ class ProfileViewModel @Inject constructor(private val repository: Repository) :
 
     private val _userDeleted = SingleLiveEvent<Boolean>()
     val userDeleted: LiveData<Boolean> = _userDeleted
+
+    private val _errorCalorieLimit = MutableLiveData<Int?>(null)
+    val errorCalorieLimit: LiveData<Int?> = _errorCalorieLimit
 
     private val _error = SingleLiveEvent<Int>()
     val error: LiveData<Int> = _error
@@ -52,16 +56,25 @@ class ProfileViewModel @Inject constructor(private val repository: Repository) :
 
     fun save(
         firstName: String?,
-        lastName: String?
+        lastName: String?,
+        dailyCalorieLimit: Int?
     ) {
-        profile ?: return
-        val updatedProfile = Profile(profile.username, profile.role, firstName, lastName,
-            gender.value, birthday.value)
+        val profile = _profile.value ?: return
+        if (dailyCalorieLimit == null) {
+            _errorCalorieLimit.value = R.string.error_daily_calorie_limit
+            return
+        }
+
+        val updatedProfile = Profile(profile.username, profile.role, dailyCalorieLimit, firstName,
+            lastName, gender.value, birthday.value)
         val request = UpdateProfileRequest(updatedProfile)
         viewModelScope.launch {
             _waiting.value = true
             when(val result = repository.updateProfile(request)) {
-                is RepositoryResult.Success -> _profileUpdated.value = true
+                is RepositoryResult.Success -> {
+                    _profile.value = updatedProfile
+                    _profileUpdated.value = true
+                }
                 is RepositoryResult.Error -> {
                     if (result.code == ErrorCode.UNAUTHORIZED.code) {
                         _tokenError.value = R.string.token_expired

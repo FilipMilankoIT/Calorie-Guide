@@ -987,6 +987,73 @@
 							"response": []
 						},
 						{
+							"name": "Update user daily calorie limit with 200 respons",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const { v4: uuidv4 } = require('uuid')\r",
+											"\r",
+											"const registerUrl = pm.environment.get('host') + '/register'\r",
+											"\r",
+											"const body = {\r",
+											"    username: uuidv4(),\r",
+											"    password: 'Pass123*'\r",
+											"}\r",
+											"\r",
+											"pm.variables.set('username', body.username)\r",
+											"\r",
+											"const registerUserRequest = {\r",
+											"    url: registerUrl,\r",
+											"    method: 'POST',\r",
+											"    header: {\r",
+											"        'Content-Type': 'application/json'\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify(body)\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"pm.sendRequest(registerUserRequest, (error, result) => {\r",
+											"    if (error) {\r",
+											"        console.log(error)\r",
+											"    } else {\r",
+											"        console.log(result)\r",
+											"    }\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dailyCalorieLimit\": 4000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/{{username}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{username}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Update user with 400 response for invalid password",
 							"event": [
 								{
@@ -1389,6 +1456,73 @@
 							"response": []
 						},
 						{
+							"name": "Update user with 400 response for invalid daily calorie limit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const { v4: uuidv4 } = require('uuid')\r",
+											"\r",
+											"const registerUrl = pm.environment.get('host') + '/register'\r",
+											"\r",
+											"const body = {\r",
+											"    username: uuidv4(),\r",
+											"    password: 'Pass123*'\r",
+											"}\r",
+											"\r",
+											"pm.variables.set('username', body.username)\r",
+											"\r",
+											"const registerUserRequest = {\r",
+											"    url: registerUrl,\r",
+											"    method: 'POST',\r",
+											"    header: {\r",
+											"        'Content-Type': 'application/json'\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify(body)\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"pm.sendRequest(registerUserRequest, (error, result) => {\r",
+											"    if (error) {\r",
+											"        console.log(error)\r",
+											"    } else {\r",
+											"        console.log(result)\r",
+											"    }\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dailyCalorieLimit\": -4000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/{{username}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{username}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Update user with 400 response no update fields",
 							"event": [
 								{
@@ -1670,6 +1804,61 @@
 									],
 									"path": [
 										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get limited numer of user with 200 response",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users?limit=3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3"
+										}
 									]
 								}
 							},
@@ -2907,6 +3096,87 @@
 										{
 											"key": "to",
 											"value": "1644326858000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get users average calories",
+					"item": [
+						{
+							"name": "Get users average calories with 200 response",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/report/user/calories/average",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"report",
+										"user",
+										"calories",
+										"average"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get users average calories with 200 response for specific period",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/report/user/calories/average?from=1644326857000&to=1644326858000",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"report",
+										"user",
+										"calories",
+										"average"
+									],
+									"query": [
+										{
+											"key": "from",
+											"value": "1644326857000"
+										},
+										{
+											"key": "to",
+											"value": "1644326858000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get users average calories with 200 response for limited number of users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/report/user/calories/average?limit=3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"report",
+										"user",
+										"calories",
+										"average"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3"
 										}
 									]
 								}

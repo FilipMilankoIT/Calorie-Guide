@@ -38,6 +38,9 @@ class LoginResponse extends Response {
         if (user.birthday) {
             body.birthday = user.birthday
         }
+        if (user.dailyCalorieLimit) {
+            body.dailyCalorieLimit = user.dailyCalorieLimit
+        }
         return new LoginResponse(Response.StatusCode.OK, body)
     }
 

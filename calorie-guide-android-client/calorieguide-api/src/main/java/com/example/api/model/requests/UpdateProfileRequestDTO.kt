@@ -7,5 +7,6 @@ data class UpdateProfileRequestDTO(
     val firstName: String?,
     val lastName: String?,
     val gender: String?,
-    val birthday: Long?
+    val birthday: Long?,
+    val dailyCalorieLimit: Int?
     )

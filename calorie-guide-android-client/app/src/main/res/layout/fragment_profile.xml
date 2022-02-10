@@ -12,7 +12,8 @@
         android:layout_width="@dimen/page_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="@dimen/page_horizontal_margin">
+        android:layout_marginHorizontal="@dimen/page_horizontal_margin"
+        tools:layout_width="match_parent">
 
         <TextView
             android:id="@+id/username_label"
@@ -129,6 +130,23 @@
             android:background="@drawable/chevron_down"
             android:backgroundTint="@color/form_field_icon" />
 
+        <TextView
+            android:id="@+id/daily_calorie_limit_label"
+            style="@style/field_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/form_field_vertical_margin"
+            android:text="@string/daily_calorie_limit_label"
+            app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+        <EditText
+            android:id="@+id/daily_calorie_limit"
+            style="@style/input_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintTop_toBottomOf="@+id/daily_calorie_limit_label" />
+
         <Button
             android:id="@+id/save_button"
             style="@style/primary_button"
@@ -138,7 +156,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/save_label"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gender" />
+            app:layout_constraintTop_toBottomOf="@+id/daily_calorie_limit" />
 
         <Button
             android:id="@+id/sign_out_button"

@@ -73,7 +73,7 @@
     "ExpressionAttributeNames": {
       "#role": "role"
     },
-    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday",
+    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday, dailyCalorieLimit",
     "FilterExpression": "username <> :username",
     "ExpressionAttributeValues": {
       ":username": "FilipMilanko"
@@ -84,7 +84,7 @@
     "ExpressionAttributeNames": {
       "#role": "role"
     },
-    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday",
+    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday, dailyCalorieLimit",
     "FilterExpression": "username <> :username",
     "ExpressionAttributeValues": {
       ":username": "FilipMilankoUserManager"
@@ -95,7 +95,7 @@
     "ExpressionAttributeNames": {
       "#role": "role"
     },
-    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday",
+    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday, dailyCalorieLimit",
     "FilterExpression": "username <> :username",
     "ExpressionAttributeValues": {
       ":username": "FilipMilankoAdmin"

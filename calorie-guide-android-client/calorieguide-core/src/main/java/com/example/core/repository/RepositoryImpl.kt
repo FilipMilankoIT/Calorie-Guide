@@ -44,6 +44,7 @@ internal class RepositoryImpl(
                 val profile = Profile(
                     loginResult.username,
                     loginResult.role,
+                    loginResult.dailyCalorieLimit,
                     loginResult.firstName,
                     loginResult.lastName,
                     loginResult.gender,
@@ -198,4 +199,10 @@ internal class RepositoryImpl(
                 RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
             }
         }
+
+    override suspend fun getMyCalorieSumByTimeRange(from: Long, to: Long) =
+        getCalorieSumByTimeRange(getProfile()?.username ?: "", from, to)
+
+    override suspend fun getCalorieSumByTimeRange(username: String, from: Long, to: Long) =
+        db.foodDao().getCalorieSumByTimeRange(username, from, to)
 }

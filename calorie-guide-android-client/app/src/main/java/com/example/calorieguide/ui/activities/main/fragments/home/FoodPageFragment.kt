@@ -10,10 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.calorieguide.R
 import com.example.calorieguide.databinding.FragmentFoodPageBinding
+import com.example.calorieguide.ui.activities.main.fragments.profile.ProfileViewModel
 import com.example.calorieguide.ui.dialogs.DialogListener
 import com.example.calorieguide.ui.dialogs.updatefooddialog.UpdateFoodDialogFragment
 import com.example.calorieguide.ui.recyclerview.food.FoodListAdapter
+import com.example.core.model.DEFAULT_DAILY_CALORIE_LIMIT
 import com.example.core.model.Food
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FoodPageFragment : Fragment(), DialogListener {
 
     private val homeViewModel: HomeViewModel by activityViewModels()
+    private val profileViewModel: ProfileViewModel by activityViewModels()
     private val viewModel: FoodPageViewModel by viewModels()
 
     private var _binding: FragmentFoodPageBinding? = null
@@ -42,6 +46,18 @@ class FoodPageFragment : Fragment(), DialogListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.calorieSum.observe(viewLifecycleOwner) {
+            val sum = it ?: 0
+            binding.progressBar.calorieCount.text = sum.toString()
+            binding.progressBar.calorieProgressBar.progress = sum
+        }
+
+        profileViewModel.profile.observe(viewLifecycleOwner) {
+            val limit = it?.dailyCalorieLimit ?: DEFAULT_DAILY_CALORIE_LIMIT
+            binding.progressBar.calorieLimit.text = getString(R.string.calories_count, limit)
+            binding.progressBar.calorieProgressBar.max = limit
+        }
 
         val adapter = FoodListAdapter(requireContext()) {
             UpdateFoodDialogFragment().show(childFragmentManager, it)
@@ -73,6 +89,7 @@ class FoodPageFragment : Fragment(), DialogListener {
             binding.swipeRefreshLayout.isRefreshing = isRefreshing
             if (!isRefreshing) {
                 viewModel.updateList(viewLifecycleOwner, listObserver)
+                viewModel.updateCalorieSum()
             }
         }
     }

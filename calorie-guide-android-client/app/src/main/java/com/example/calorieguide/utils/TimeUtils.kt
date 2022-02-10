@@ -27,7 +27,7 @@ object TimeUtils {
 
     fun getStartOfDay(time: Date): Long {
         val cal = Calendar.getInstance()
-        cal.timeInMillis = time.time
+        cal.timeInMillis = time.time / 1000 * 1000
         cal[Calendar.HOUR_OF_DAY] = 0
         cal[Calendar.MINUTE] = 0
         cal[Calendar.SECOND] = 0

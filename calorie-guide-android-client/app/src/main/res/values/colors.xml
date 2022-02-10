@@ -8,6 +8,7 @@
     <color name="red900">#B71C1C</color>
     <color name="amber200">#fffd61</color>
     <color name="amber400">#ffca28</color>
+    <color name="amber600">#FBC02D</color>
     <color name="amber700">#c79a00</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
@@ -36,4 +37,5 @@
     <color name="secondary_button_background">@color/red900</color>
     <color name="list_item_divider">@color/gray400</color>
     <color name="list_header_background">@color/orange200</color>
+    <color name="calorie_count">@color/amber600</color>
 </resources>

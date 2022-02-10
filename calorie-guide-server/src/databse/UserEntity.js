@@ -98,7 +98,7 @@ class UserEntity {
             ExpressionAttributeNames: {
                 "#role": "role"
             },
-            ProjectionExpression: "username, #role, firstName, lastName, gender, birthday"
+            ProjectionExpression: "username, #role, firstName, lastName, gender, birthday, dailyCalorieLimit"
         }
 
         if (excludeUsername) {

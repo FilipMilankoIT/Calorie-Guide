@@ -15,6 +15,7 @@ data class LoginResponse(
     val token: String,
     val username: String,
     val role: UserRole,
+    val dailyCalorieLimit: Int,
     val firstName: String?,
     val lastName: String?,
     val gender: Gender?,

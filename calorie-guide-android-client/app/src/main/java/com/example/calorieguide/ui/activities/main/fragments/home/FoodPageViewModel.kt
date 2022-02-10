@@ -9,6 +9,7 @@ import com.example.calorieguide.utils.TimeUtils.getStartOfDay
 import com.example.core.model.Food
 import com.example.core.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -20,6 +21,9 @@ class FoodPageViewModel @Inject constructor(val repository: Repository) : ViewMo
     private var _endTime = _startTime + DAY - SECOND
 
     private var _foodList = repository.getMyFoodEntries(_startTime, _endTime)
+
+    private val _calorieSum = MutableLiveData(0)
+    val calorieSum: LiveData<Int> = _calorieSum
 
     fun initList(startTime: Long, endTime: Long, lifecycleOwner: LifecycleOwner,
                  observer: Observer<PagedList<Food>>) {
@@ -39,4 +43,10 @@ class FoodPageViewModel @Inject constructor(val repository: Repository) : ViewMo
     fun getStartTime() = _startTime
 
     fun getEndTime() = _endTime
+
+    fun updateCalorieSum() {
+        viewModelScope.launch {
+            _calorieSum.value = repository.getMyCalorieSumByTimeRange(_startTime, _endTime)
+        }
+    }
 }

@@ -44,7 +44,8 @@ module.exports.handler = async (event) => {
             request.firstName,
             request.lastName,
             request.gender,
-            request.birthday
+            request.birthday,
+            User.DEFAULT_DAILY_CALORIE_LIMIT
         )
         await userEntity.put(user)
     } catch (error) {

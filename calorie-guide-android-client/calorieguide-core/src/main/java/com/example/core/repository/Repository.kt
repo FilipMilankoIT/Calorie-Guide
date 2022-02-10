@@ -40,4 +40,8 @@ interface Repository {
     suspend fun updateFood(id: String, request: UpdateFoodRequest): RepositoryResult<Food>
 
     suspend fun deleteFood(id: String): RepositoryResult<Response>
+
+    suspend fun getMyCalorieSumByTimeRange(from: Long, to: Long): Int
+
+    suspend fun getCalorieSumByTimeRange(username: String, from: Long, to: Long): Int
 }

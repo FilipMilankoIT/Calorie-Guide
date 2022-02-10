@@ -65,7 +65,8 @@ module.exports.handler = async (event) => {
             request.firstName,
             request.lastName,
             request.gender,
-            request.birthday
+            request.birthday,
+            request.dailyCalorieLimit
         )
         await userEntity.update(updatedUser)
 

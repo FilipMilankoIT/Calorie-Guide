@@ -16,4 +16,5 @@
     <color name="secondary_button_background">@color/red500</color>
     <color name="list_item_divider">@color/white_alpha25</color>
     <color name="list_header_background">@color/gray900</color>
+    <color name="calorie_count">@color/amber400</color>
 </resources>

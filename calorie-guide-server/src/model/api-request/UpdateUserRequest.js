@@ -1,7 +1,7 @@
 'use strict'
 
 const AuthorizedRequest = require('./AuthorizedRequest')
-const {isNonEmptyString, isString, isInteger} = require('../../utils/utilFunctions')
+const {isNonEmptyString, isString, isInteger, isPositiveInteger} = require('../../utils/utilFunctions')
 const Role = require("../../model/Role").Role
 const Gender = require("../../model/Gender")
 
@@ -22,6 +22,7 @@ class UpdateUserRequest extends AuthorizedRequest {
         this.lastName = this.body.lastName
         this.gender = this.body.gender
         this.birthday = this.body.birthday
+        this.dailyCalorieLimit = this.body.dailyCalorieLimit
         Object.freeze(this)
     }
 
@@ -34,7 +35,7 @@ class UpdateUserRequest extends AuthorizedRequest {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
         if (!this.password && !this.role && this.firstName === undefined && this.lastName === undefined && !this.gender
-            && !this.birthday) {
+            && !this.birthday && this.dailyCalorieLimit === undefined) {
             throw new Error('Invalid user update parameters.')
         }
 
@@ -61,6 +62,10 @@ class UpdateUserRequest extends AuthorizedRequest {
 
         if (this.birthday && !isInteger(this.birthday)) {
             throw new Error('Invalid birthday. Birthday need to be a timestamp in milliseconds.')
+        }
+
+        if (this.dailyCalorieLimit !== undefined && !isPositiveInteger(this.dailyCalorieLimit)) {
+            throw new Error('Invalid daily calorie limit. The limit need to be a non negative number.')
         }
     }
 }
