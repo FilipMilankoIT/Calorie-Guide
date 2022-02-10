@@ -36,6 +36,7 @@
     <string name="error_unknown">Sorry something went wrong</string>
     <string name="error_no_network">No internet connection</string>
     <string name="token_expired">Session expired, you need to login again</string>
+    <string name="error_item_not_found">Failed to find requested item. Make sure your list is refreshed.</string>
 
     <!-- Home fragment -->
     <string name="home_label">Home</string>

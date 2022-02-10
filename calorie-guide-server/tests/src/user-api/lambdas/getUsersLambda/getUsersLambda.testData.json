@@ -70,36 +70,36 @@
   },
   "scanParams1": {
     "TableName": "auth-server-dev-user-table",
+    "ExpressionAttributeNames": {
+      "#role": "role"
+    },
+    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday",
     "FilterExpression": "username <> :username",
     "ExpressionAttributeValues": {
       ":username": "FilipMilanko"
-    },
-    "ExpressionAttributeNames": {
-      "#role": "role"
-    },
-    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday"
+    }
   },
   "scanParams2": {
     "TableName": "auth-server-dev-user-table",
+    "ExpressionAttributeNames": {
+      "#role": "role"
+    },
+    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday",
     "FilterExpression": "username <> :username",
     "ExpressionAttributeValues": {
       ":username": "FilipMilankoUserManager"
-    },
-    "ExpressionAttributeNames": {
-      "#role": "role"
-    },
-    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday"
+    }
   },
   "scanParams3": {
     "TableName": "auth-server-dev-user-table",
-    "FilterExpression": "username <> :username",
-    "ExpressionAttributeValues": {
-      ":username": "FilipMilankoAdmin"
-    },
     "ExpressionAttributeNames": {
       "#role": "role"
     },
-    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday"
+    "ProjectionExpression": "username, #role, firstName, lastName, gender, birthday",
+    "FilterExpression": "username <> :username",
+    "ExpressionAttributeValues": {
+      ":username": "FilipMilankoAdmin"
+    }
   },
   "scanResult": {
     "Items": [

@@ -79,10 +79,10 @@ class HomeViewModel @Inject constructor(val repository: Repository) : ViewModel(
             when(val result = repository.updateFood(food.id, request)) {
                 is RepositoryResult.Success -> _isRefreshing.value = false
                 is RepositoryResult.Error -> {
-                    if (result.code == ErrorCode.UNAUTHORIZED.code) {
-                        _tokenError.value = R.string.token_expired
-                    } else {
-                        _error.value = R.string.error_unknown
+                    when(result.code) {
+                        ErrorCode.UNAUTHORIZED.code -> _tokenError.value = R.string.token_expired
+                        ErrorCode.ITEM_NOT_FOUND.code -> _tokenError.value = R.string.error_item_not_found
+                        else -> _error.value = R.string.error_unknown
                     }
                 }
                 is RepositoryResult.NetworkError -> _error.value = R.string.error_no_network
@@ -98,10 +98,10 @@ class HomeViewModel @Inject constructor(val repository: Repository) : ViewModel(
             when(val result = repository.deleteFood(id)) {
                 is RepositoryResult.Success -> _isRefreshing.value = false
                 is RepositoryResult.Error -> {
-                    if (result.code == ErrorCode.UNAUTHORIZED.code) {
-                        _tokenError.value = R.string.token_expired
-                    } else {
-                        _error.value = R.string.error_unknown
+                    when(result.code) {
+                        ErrorCode.UNAUTHORIZED.code -> _tokenError.value = R.string.token_expired
+                        ErrorCode.ITEM_NOT_FOUND.code -> _tokenError.value = R.string.error_item_not_found
+                        else -> _error.value = R.string.error_unknown
                     }
                 }
                 is RepositoryResult.NetworkError -> _error.value = R.string.error_no_network

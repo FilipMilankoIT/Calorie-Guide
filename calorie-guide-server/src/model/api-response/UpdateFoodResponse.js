@@ -31,6 +31,7 @@ class UpdateFoodResponse extends Response {
      */
     static notFoundResponse(id) {
         const body = {
+            code: Response.ErrorCode.ITEM_NOT_FOUND,
             message: `Food entry ${id} not found.`
         }
         return new UpdateFoodResponse(Response.StatusCode.NOT_FOUND, body)
