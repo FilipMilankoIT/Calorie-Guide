@@ -2,10 +2,7 @@ package com.example.api
 
 import com.example.api.model.ApiResult
 import com.example.api.model.FoodDTO
-import com.example.api.model.requests.AddFoodRequestDTO
-import com.example.api.model.requests.LoginRequestDTO
-import com.example.api.model.requests.RegisterRequestDTO
-import com.example.api.model.requests.UpdateProfileRequestDTO
+import com.example.api.model.requests.*
 import com.example.api.model.responses.GetFoodListResponse
 import com.example.api.model.responses.LoginResponseDTO
 import com.example.api.model.responses.ResponseDTO
@@ -37,5 +34,12 @@ interface CalorieGuideApi {
     suspend fun addFood(
         authorization: String,
         request: AddFoodRequestDTO
+    ): ApiResult<FoodDTO>
+
+
+    suspend fun updateFood(
+        authorization: String,
+        id: String,
+        request: UpdateFoodRequestDTO
     ): ApiResult<FoodDTO>
 }

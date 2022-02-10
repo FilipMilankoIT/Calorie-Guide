@@ -3,10 +3,7 @@ package com.example.api
 import android.util.Log
 import com.example.api.model.ApiResult
 import com.example.api.model.FoodDTO
-import com.example.api.model.requests.AddFoodRequestDTO
-import com.example.api.model.requests.LoginRequestDTO
-import com.example.api.model.requests.RegisterRequestDTO
-import com.example.api.model.requests.UpdateProfileRequestDTO
+import com.example.api.model.requests.*
 import com.example.api.model.responses.*
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -69,6 +66,13 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
         request: AddFoodRequestDTO
     ): ApiResult<FoodDTO> =
         getResponse { service.addFood(authorization, request) }
+
+    override suspend fun updateFood(
+        authorization: String,
+        id: String,
+        request: UpdateFoodRequestDTO
+    ): ApiResult<FoodDTO> =
+        getResponse { service.updateFood(authorization, id, request) }
 
     private suspend fun <T> getResponse(apiCall: suspend () -> Response<T>): ApiResult<T> {
         try {

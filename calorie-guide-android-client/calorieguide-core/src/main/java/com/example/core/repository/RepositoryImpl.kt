@@ -14,10 +14,7 @@ import com.example.core.model.converters.reqests.toDTO
 import com.example.core.model.converters.responses.toEntityList
 import com.example.core.model.converters.responses.toModel
 import com.example.core.model.converters.toModel
-import com.example.core.model.requests.AddFoodRequest
-import com.example.core.model.requests.LoginRequest
-import com.example.core.model.requests.RegisterRequest
-import com.example.core.model.requests.UpdateProfileRequest
+import com.example.core.model.requests.*
 import com.example.core.model.responses.LoginResponse
 import com.example.core.model.responses.Response
 import com.example.core.storage.room.AppDatabase
@@ -150,6 +147,29 @@ internal class RepositoryImpl(
                 if (newFood != null) {
                     db.foodDao().insert(newFood.toEntry())
                     RepositoryResult.Success(newFood)
+                } else {
+                    RepositoryResult.UnknownError("")
+                }
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
+
+    override suspend fun updateFood(id: String, request: UpdateFoodRequest):
+            RepositoryResult<Food>  =
+        when (val result = calorieGuideApi.updateFood(getToken() ?: "", id,
+            request.toDTO())) {
+            is ApiResult.Success -> {
+                val updatedFood = result.data.toModel()
+                if (updatedFood != null) {
+                    db.foodDao().updateFood(updatedFood.id, updatedFood.name, updatedFood.timestamp,
+                        updatedFood.calories)
+                    RepositoryResult.Success(updatedFood)
                 } else {
                     RepositoryResult.UnknownError("")
                 }

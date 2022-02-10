@@ -17,4 +17,7 @@ interface FoodDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(food: List<FoodEntity>)
+
+    @Query("UPDATE food_table SET name = :name, timestamp = :timestamp, calories = :calories WHERE id = :id")
+    suspend fun updateFood(id: String, name: String, timestamp: Long, calories: Int)
 }

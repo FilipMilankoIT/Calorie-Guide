@@ -11,12 +11,14 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorieguide.databinding.FragmentFoodPageBinding
+import com.example.calorieguide.ui.dialogs.DialogListener
+import com.example.calorieguide.ui.dialogs.updatefooddialog.UpdateFoodDialogFragment
 import com.example.calorieguide.ui.recyclerview.food.FoodListAdapter
 import com.example.core.model.Food
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FoodPageFragment : Fragment() {
+class FoodPageFragment : Fragment(), DialogListener {
 
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val viewModel: FoodPageViewModel by viewModels()
@@ -42,7 +44,7 @@ class FoodPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = FoodListAdapter(requireContext()) {
-            // TODO Implement item click logic
+            UpdateFoodDialogFragment().show(childFragmentManager, it)
         }
         binding.foodList.apply {
             setHasFixedSize(true)
@@ -79,4 +81,15 @@ class FoodPageFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onDialogPositiveClick(tag: String, bundle: Bundle?) {
+        val food: Food? = bundle?.getParcelable(UpdateFoodDialogFragment.FOOD_ITEM_KEY)
+        if (food != null) {
+            homeViewModel.updateFoodItem(food)
+        }
+    }
+
+    override fun onDialogNegativeClick(tag: String, bundle: Bundle?) { }
+
+    override fun onDialogDismiss(tag: String, bundle: Bundle?) { }
 }

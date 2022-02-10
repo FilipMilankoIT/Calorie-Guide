@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddFoodViewModel @Inject constructor() : ViewModel() {
+class FoodDialogViewModel @Inject constructor() : ViewModel() {
 
     private val _timeDate = MutableLiveData<Long?>()
     val timeDate: LiveData<Long?> = _timeDate

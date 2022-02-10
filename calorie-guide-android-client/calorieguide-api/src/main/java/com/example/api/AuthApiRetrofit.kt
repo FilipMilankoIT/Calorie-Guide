@@ -1,10 +1,7 @@
 package com.example.api
 
 import com.example.api.model.FoodDTO
-import com.example.api.model.requests.AddFoodRequestDTO
-import com.example.api.model.requests.LoginRequestDTO
-import com.example.api.model.requests.RegisterRequestDTO
-import com.example.api.model.requests.UpdateProfileRequestDTO
+import com.example.api.model.requests.*
 import com.example.api.model.responses.GetFoodListResponse
 import com.example.api.model.responses.LoginResponseDTO
 import com.example.api.model.responses.ResponseDTO
@@ -44,5 +41,12 @@ internal interface AuthApiRetrofit {
     suspend fun addFood(
         @Header("Authorization") authorization: String,
         @Body request: AddFoodRequestDTO
+    ): Response<FoodDTO>
+
+    @PATCH("food/{id}")
+    suspend fun updateFood(
+        @Header("Authorization") authorization: String,
+        @Path("id") id: String,
+        @Body request: UpdateFoodRequestDTO
     ): Response<FoodDTO>
 }

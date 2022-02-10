@@ -40,7 +40,7 @@
     <!-- Home fragment -->
     <string name="home_label">Home</string>
     <string name="search_label">Search</string>
-    <string name="calories_count">%d cal</string>
+    <string name="calories_count">%d kcal</string>
     <string name="empty_food_list">No food entries found from this period</string>
 
     <!-- Report fragment -->
@@ -65,8 +65,11 @@
     <string name="food_name_label">Food name</string>
     <string name="time_date_label">Time date</string>
     <string name="time_date_hint">HH:MM DD.MM.YYYY.</string>
-    <string name="calories_label">Calories</string>
+    <string name="calories_label">Calories (kcal)</string>
     <string name="empty_food_name">Food name must not be blank</string>
     <string name="empty_time_date">Time date must be selected</string>
     <string name="empty_calories">Calorie count must be added</string>
+
+    <!-- Update food dialog -->
+    <string name="update_food_title">Update food entry</string>
 </resources>
