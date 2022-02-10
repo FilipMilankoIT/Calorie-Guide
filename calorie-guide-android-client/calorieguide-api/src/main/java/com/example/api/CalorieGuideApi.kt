@@ -36,10 +36,11 @@ interface CalorieGuideApi {
         request: AddFoodRequestDTO
     ): ApiResult<FoodDTO>
 
-
     suspend fun updateFood(
         authorization: String,
         id: String,
         request: UpdateFoodRequestDTO
     ): ApiResult<FoodDTO>
+
+    suspend fun deleteFood(authorization: String, id: String): ApiResult<ResponseDTO>
 }

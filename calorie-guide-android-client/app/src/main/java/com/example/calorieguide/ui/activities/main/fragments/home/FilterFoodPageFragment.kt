@@ -110,7 +110,12 @@ class FilterFoodPageFragment : Fragment(), DialogListener {
         }
     }
 
-    override fun onDialogNegativeClick(tag: String, bundle: Bundle?) { }
+    override fun onDialogNegativeClick(tag: String, bundle: Bundle?) {
+        val id: String? = bundle?.getString(UpdateFoodDialogFragment.FOOD_ID_KEY)
+        if (id != null) {
+            homeViewModel.deleteFood(id)
+        }
+    }
 
     override fun onDialogDismiss(tag: String, bundle: Bundle?) { }
 }

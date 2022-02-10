@@ -38,4 +38,6 @@ interface Repository {
     suspend fun addFood(request: AddFoodRequest): RepositoryResult<Food>
 
     suspend fun updateFood(id: String, request: UpdateFoodRequest): RepositoryResult<Food>
+
+    suspend fun deleteFood(id: String): RepositoryResult<Response>
 }

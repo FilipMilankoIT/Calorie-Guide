@@ -91,4 +91,23 @@ class HomeViewModel @Inject constructor(val repository: Repository) : ViewModel(
             _waiting.value = false
         }
     }
+
+    fun deleteFood(id: String) {
+        viewModelScope.launch {
+            _waiting.value = true
+            when(val result = repository.deleteFood(id)) {
+                is RepositoryResult.Success -> _isRefreshing.value = false
+                is RepositoryResult.Error -> {
+                    if (result.code == ErrorCode.UNAUTHORIZED.code) {
+                        _tokenError.value = R.string.token_expired
+                    } else {
+                        _error.value = R.string.error_unknown
+                    }
+                }
+                is RepositoryResult.NetworkError -> _error.value = R.string.error_no_network
+                is RepositoryResult.UnknownError -> _error.value = R.string.error_unknown
+            }
+            _waiting.value = false
+        }
+    }
 }

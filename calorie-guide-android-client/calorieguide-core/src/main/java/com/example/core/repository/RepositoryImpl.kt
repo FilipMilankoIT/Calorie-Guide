@@ -118,6 +118,7 @@ internal class RepositoryImpl(
         when (val result = calorieGuideApi.getFoodList(getToken() ?: "",
             username, from, to)) {
             is ApiResult.Success -> {
+                db.foodDao().deleteFoodEntriesByTimeRange(from, to)
                 db.foodDao().insertAll(result.data.toEntityList())
                 RepositoryResult.Success(true)
             }
@@ -137,7 +138,7 @@ internal class RepositoryImpl(
         username: String,
         from: Long,
         to: Long
-    ): LiveData<PagedList<Food>> = db.foodDao().getFoodEntriesInPeriod(username, from, to)
+    ): LiveData<PagedList<Food>> = db.foodDao().getFoodEntriesByTimeRange(username, from, to)
         .map { it.toModel() }.toLiveData(20)
 
     override suspend fun addFood(request: AddFoodRequest): RepositoryResult<Food>  =
@@ -173,6 +174,21 @@ internal class RepositoryImpl(
                 } else {
                     RepositoryResult.UnknownError("")
                 }
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
+
+    override suspend fun deleteFood(id: String): RepositoryResult<Response>  =
+        when (val result = calorieGuideApi.deleteFood(getToken() ?: "", id)) {
+            is ApiResult.Success -> {
+                db.foodDao().deleteFood(id)
+                RepositoryResult.Success(result.data.toModel())
             }
             is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
             is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)

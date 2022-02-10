@@ -25,6 +25,7 @@ class UpdateFoodDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "UpdateFoodDialogFragment"
         const val FOOD_ITEM_KEY = "food_item"
+        const val FOOD_ID_KEY = "food_id"
     }
 
     private val viewModel: FoodDialogViewModel by viewModels()
@@ -99,7 +100,10 @@ class UpdateFoodDialogFragment : DialogFragment() {
         }
 
         binding.deleteButton.setOnClickListener {
-
+            val bundle = Bundle()
+            bundle.putString(FOOD_ID_KEY, food.id)
+            listener?.onDialogNegativeClick(TAG, bundle)
+            dialog.dismiss()
         }
 
         viewModel.nameError.observe(this) {

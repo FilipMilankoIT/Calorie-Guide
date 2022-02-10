@@ -74,6 +74,9 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
     ): ApiResult<FoodDTO> =
         getResponse { service.updateFood(authorization, id, request) }
 
+    override suspend fun deleteFood(authorization: String, id: String): ApiResult<ResponseDTO> =
+        getResponse { service.deleteFood(authorization, id) }
+
     private suspend fun <T> getResponse(apiCall: suspend () -> Response<T>): ApiResult<T> {
         try {
             val result = apiCall()

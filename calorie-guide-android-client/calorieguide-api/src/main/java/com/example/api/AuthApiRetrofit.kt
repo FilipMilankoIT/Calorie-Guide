@@ -49,4 +49,10 @@ internal interface AuthApiRetrofit {
         @Path("id") id: String,
         @Body request: UpdateFoodRequestDTO
     ): Response<FoodDTO>
+
+    @DELETE("food/{id}")
+    suspend fun deleteFood(
+        @Header("Authorization") authorization: String,
+        @Path("id") id: String
+    ): Response<ResponseDTO>
 }
