@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.example.core.model.Food
 import com.example.core.model.Profile
 import com.example.core.model.RepositoryResult
+import com.example.core.model.requests.AddFoodRequest
 import com.example.core.model.requests.LoginRequest
 import com.example.core.model.requests.RegisterRequest
 import com.example.core.model.requests.UpdateProfileRequest
@@ -36,4 +37,6 @@ interface Repository {
     fun getMyFoodEntries(from: Long, to: Long): LiveData<PagedList<Food>>
 
     fun getFoodEntries(username: String, from: Long, to: Long): LiveData<PagedList<Food>>
+
+    suspend fun addFood(request: AddFoodRequest): RepositoryResult<Food>
 }

@@ -18,7 +18,7 @@
     <string name="first_name_label">First Name</string>
     <string name="last_name_label">Last Name</string>
     <string name="birthday_label">Birthday</string>
-    <string name="birthday_hint">DD.MM.YYYY</string>
+    <string name="birthday_hint">DD.MM.YYYY.</string>
     <string name="gender_label">Gender</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="invalid_password">Password must be at least eight characters, have at least one uppercase letter, one lowercase letter, one number and one special character</string>
@@ -59,4 +59,14 @@
     <string name="delete_dialog_text">Are you sure you want to delete your account?</string>
     <string name="cancel_label">Cancel</string>
     <string name="dash">-</string>
+
+    <!-- Add food dialog -->
+    <string name="add_food_title">Add food entry</string>
+    <string name="food_name_label">Food name</string>
+    <string name="time_date_label">Time date</string>
+    <string name="time_date_hint">HH:MM DD.MM.YYYY.</string>
+    <string name="calories_label">Calories</string>
+    <string name="empty_food_name">Food name must not be blank</string>
+    <string name="empty_time_date">Time date must be selected</string>
+    <string name="empty_calories">Calorie count must be added</string>
 </resources>

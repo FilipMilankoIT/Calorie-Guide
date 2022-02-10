@@ -9,7 +9,7 @@ import java.util.*
 
 object DatePicker {
 
-    fun get(selectedTime: Long?, futureAllowed: Boolean = false): MaterialDatePicker<Long> {
+    fun get(selectedTime: Long?, futureAllowed: Boolean = true): MaterialDatePicker<Long> {
         val calendarConstraintsBuilder = CalendarConstraints.Builder()
             .setEnd(getStartOfDay(Date()).toUTCTime())
         if (!futureAllowed) {

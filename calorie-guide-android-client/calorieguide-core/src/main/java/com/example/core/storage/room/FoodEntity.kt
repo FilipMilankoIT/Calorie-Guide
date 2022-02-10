@@ -11,3 +11,5 @@ data class FoodEntity(@PrimaryKey val id: String, val username: String, val name
                       val timestamp : Long, val calories : Int)
 
 fun FoodEntity.toModel() = Food(this.id, this.username, this.name, this.timestamp, this.calories)
+
+fun Food.toEntry() = FoodEntity(this.id, this.username, this.name, this.timestamp, this.calories)

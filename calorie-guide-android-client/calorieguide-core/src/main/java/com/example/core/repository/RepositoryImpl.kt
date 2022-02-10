@@ -10,15 +10,18 @@ import com.example.core.model.ErrorCode
 import com.example.core.model.Food
 import com.example.core.model.Profile
 import com.example.core.model.RepositoryResult
-import com.example.core.model.converters.reqests.toModel
+import com.example.core.model.converters.reqests.toDTO
 import com.example.core.model.converters.responses.toEntityList
 import com.example.core.model.converters.responses.toModel
+import com.example.core.model.converters.toModel
+import com.example.core.model.requests.AddFoodRequest
 import com.example.core.model.requests.LoginRequest
 import com.example.core.model.requests.RegisterRequest
 import com.example.core.model.requests.UpdateProfileRequest
 import com.example.core.model.responses.LoginResponse
 import com.example.core.model.responses.Response
 import com.example.core.storage.room.AppDatabase
+import com.example.core.storage.room.toEntry
 import com.example.core.storage.room.toModel
 import com.example.core.utils.SingleLiveEvent
 
@@ -37,7 +40,7 @@ internal class RepositoryImpl(
     private val onSignOut: LiveData<Boolean> = _onSignOut
 
     override suspend fun login(request: LoginRequest): RepositoryResult<LoginResponse> =
-        when (val result = calorieGuideApi.login(request.toModel())) {
+        when (val result = calorieGuideApi.login(request.toDTO())) {
             is ApiResult.Success -> {
                 val loginResult = result.data.toModel()
                 dataProvider.writeValue(TOKEN_KEY, "Bearer ${loginResult.token}")
@@ -59,7 +62,7 @@ internal class RepositoryImpl(
         }
 
     override suspend fun register(request: RegisterRequest): RepositoryResult<Response> =
-        when (val result = calorieGuideApi.register(request.toModel())) {
+        when (val result = calorieGuideApi.register(request.toDTO())) {
             is ApiResult.Success -> RepositoryResult.Success(result.data.toModel())
             is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
             is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
@@ -81,7 +84,7 @@ internal class RepositoryImpl(
 
     override suspend fun updateProfile(request: UpdateProfileRequest): RepositoryResult<Response> =
         when (val result = calorieGuideApi.updateProfile(getToken() ?: "",
-            request.profile.username, request.toModel())) {
+            request.profile.username, request.toDTO())) {
             is ApiResult.Success -> {
                 dataProvider.writeValue(PROFILE_KEY, request.profile)
                 RepositoryResult.Success(result.data.toModel())
@@ -139,4 +142,24 @@ internal class RepositoryImpl(
         to: Long
     ): LiveData<PagedList<Food>> = db.foodDao().getFoodEntriesInPeriod(username, from, to)
         .map { it.toModel() }.toLiveData(20)
+
+    override suspend fun addFood(request: AddFoodRequest): RepositoryResult<Food>  =
+        when (val result = calorieGuideApi.addFood(getToken() ?: "", request.toDTO())) {
+            is ApiResult.Success -> {
+                val newFood = result.data.toModel()
+                if (newFood != null) {
+                    db.foodDao().insert(newFood.toEntry())
+                    RepositoryResult.Success(newFood)
+                } else {
+                    RepositoryResult.UnknownError("")
+                }
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
 }

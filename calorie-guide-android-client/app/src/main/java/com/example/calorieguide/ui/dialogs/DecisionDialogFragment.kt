@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.example.calorieguide.R
 import com.example.calorieguide.databinding.DecisionDialogBinding
 
 class DecisionDialogFragment : DialogFragment() {
@@ -29,6 +31,10 @@ class DecisionDialogFragment : DialogFragment() {
         val dialog = Dialog(requireContext())
         _binding = DecisionDialogBinding.inflate(LayoutInflater.from(context))
         dialog.setContentView(binding.root)
+        dialog.window?.apply {
+            setLayout(resources.getDimension(R.dimen.page_width).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
 
         binding.negativeButton.setOnClickListener {
             listener?.onDialogNegativeClick(TAG)

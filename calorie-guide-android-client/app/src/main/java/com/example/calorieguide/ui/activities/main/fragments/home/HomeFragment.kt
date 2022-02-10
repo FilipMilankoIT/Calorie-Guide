@@ -9,14 +9,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.calorieguide.R
 import com.example.calorieguide.databinding.FragmentHomeBinding
+import com.example.calorieguide.ui.dialogs.DialogListener
+import com.example.calorieguide.ui.dialogs.addfooddialog.AddFoodDialogFragment
 import com.example.calorieguide.ui.pager.FoodPagerAdapter
 import com.example.calorieguide.ui.utils.OnBackPressedListener
 import com.example.calorieguide.utils.TimeUtils.toFormattedDate
+import com.example.core.model.Food
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnBackPressedListener {
+class HomeFragment : Fragment(), OnBackPressedListener, DialogListener {
 
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -62,6 +65,10 @@ class HomeFragment : Fragment(), OnBackPressedListener {
             binding.filterPage.visibility = if (it) View.VISIBLE else View.GONE
         }
 
+        binding.addButton.setOnClickListener {
+            AddFoodDialogFragment().show(childFragmentManager)
+        }
+
         viewModel.error.observe(viewLifecycleOwner) {
             Snackbar.make(view, it, Snackbar.LENGTH_LONG).show()
         }
@@ -72,6 +79,7 @@ class HomeFragment : Fragment(), OnBackPressedListener {
 
         viewModel.waiting.observe(viewLifecycleOwner) {
             val isEnabled = !it
+            binding.addButton.isEnabled = isEnabled
             binding.loader.visibility = if (isEnabled) View.GONE else View.VISIBLE
         }
     }
@@ -107,6 +115,17 @@ class HomeFragment : Fragment(), OnBackPressedListener {
             true
         } else false
     }
+
+    override fun onDialogPositiveClick(tag: String, bundle: Bundle?) {
+        val food: Food? = bundle?.getParcelable(AddFoodDialogFragment.FOOD_ITEM_KEY)
+        if (food != null) {
+            viewModel.addFoodItem(food)
+        }
+    }
+
+    override fun onDialogNegativeClick(tag: String, bundle: Bundle?) { }
+
+    override fun onDialogDismiss(tag: String, bundle: Bundle?) { }
 
     private fun updatePageDate(page: Int) {
         viewModel.currentPage = page

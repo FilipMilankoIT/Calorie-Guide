@@ -46,7 +46,7 @@ class ProfileFragment : Fragment(), AdapterView.OnItemSelectedListener, DialogLi
         }
 
         binding.birthday.setOnClickListener {
-            val datePicker = DatePicker.get(viewModel.birthday.value)
+            val datePicker = DatePicker.get(viewModel.birthday.value, false)
             datePicker.addOnPositiveButtonClickListener {
                 if (it != null) {
                     viewModel.setBirthday(it)

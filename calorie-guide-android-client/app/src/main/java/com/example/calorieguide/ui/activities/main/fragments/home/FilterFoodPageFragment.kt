@@ -61,14 +61,14 @@ class FilterFoodPageFragment : Fragment() {
 
         homeViewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             binding.swipeRefreshLayout.isRefreshing = isRefreshing
-            if (isRefreshing) {
+            if (!isRefreshing) {
                 viewModel.updateList(viewLifecycleOwner, listObserver)
             }
         }
 
         binding.listHeader.fromButton.text = viewModel.getStartTime().toFormattedDate()
         binding.listHeader.fromButton.setOnClickListener {
-            val datePicker = DatePicker.get(viewModel.getStartTime(), true)
+            val datePicker = DatePicker.get(viewModel.getStartTime())
             datePicker.addOnPositiveButtonClickListener {
                 if (it != null) {
                     val fromTime = it.toLocalTime()
@@ -82,7 +82,7 @@ class FilterFoodPageFragment : Fragment() {
 
         binding.listHeader.toButton.text = viewModel.getEndTime().toFormattedDate()
         binding.listHeader.toButton.setOnClickListener {
-            val datePicker = DatePicker.get(viewModel.getEndTime(), true)
+            val datePicker = DatePicker.get(viewModel.getEndTime())
             datePicker.addOnPositiveButtonClickListener {
                 if (it != null) {
                     val toTime = it.toLocalTime() + DAY - SECOND

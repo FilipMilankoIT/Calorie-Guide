@@ -1,5 +1,7 @@
 package com.example.api
 
+import com.example.api.model.FoodDTO
+import com.example.api.model.requests.AddFoodRequestDTO
 import com.example.api.model.requests.LoginRequestDTO
 import com.example.api.model.requests.RegisterRequestDTO
 import com.example.api.model.requests.UpdateProfileRequestDTO
@@ -37,4 +39,10 @@ internal interface AuthApiRetrofit {
         @Query("from") from: Long?,
         @Query("to") to: Long?
     ): Response<GetFoodListResponse>
+
+    @POST("food")
+    suspend fun addFood(
+        @Header("Authorization") authorization: String,
+        @Body request: AddFoodRequestDTO
+    ): Response<FoodDTO>
 }

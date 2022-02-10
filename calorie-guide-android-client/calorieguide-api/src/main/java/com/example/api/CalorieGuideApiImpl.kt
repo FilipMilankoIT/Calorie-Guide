@@ -2,13 +2,12 @@ package com.example.api
 
 import android.util.Log
 import com.example.api.model.ApiResult
+import com.example.api.model.FoodDTO
+import com.example.api.model.requests.AddFoodRequestDTO
 import com.example.api.model.requests.LoginRequestDTO
 import com.example.api.model.requests.RegisterRequestDTO
 import com.example.api.model.requests.UpdateProfileRequestDTO
-import com.example.api.model.responses.ErrorResponseDTO
-import com.example.api.model.responses.GetFoodListResponse
-import com.example.api.model.responses.LoginResponseDTO
-import com.example.api.model.responses.ResponseDTO
+import com.example.api.model.responses.*
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -64,6 +63,12 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
         to: Long?
     ): ApiResult<GetFoodListResponse> =
         getResponse { service.getFoodList(authorization, username, from, to) }
+
+    override suspend fun addFood(
+        authorization: String,
+        request: AddFoodRequestDTO
+    ): ApiResult<FoodDTO> =
+        getResponse { service.addFood(authorization, request) }
 
     private suspend fun <T> getResponse(apiCall: suspend () -> Response<T>): ApiResult<T> {
         try {

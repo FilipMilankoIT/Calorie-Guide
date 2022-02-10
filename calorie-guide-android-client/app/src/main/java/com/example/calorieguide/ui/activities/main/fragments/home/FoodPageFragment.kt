@@ -69,7 +69,7 @@ class FoodPageFragment : Fragment() {
 
         homeViewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             binding.swipeRefreshLayout.isRefreshing = isRefreshing
-            if (isRefreshing) {
+            if (!isRefreshing) {
                 viewModel.updateList(viewLifecycleOwner, listObserver)
             }
         }
