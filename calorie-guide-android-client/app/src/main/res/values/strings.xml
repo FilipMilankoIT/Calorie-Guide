@@ -83,6 +83,7 @@
 
     <!-- Report page -->
     <string name="food_entry_count_title">Food entry count</string>
-    <string name="this_week_title">This week</string>
-    <string name="last_week_title">Last week</string>
+    <string name="this_week_title">Last 7 days</string>
+    <string name="last_week_title">Previous 7 days</string>
+    <string name="users_average_calories_title">Average calories in last 7 days by user</string>
 </resources>

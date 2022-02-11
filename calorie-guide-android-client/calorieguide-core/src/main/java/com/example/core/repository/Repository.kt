@@ -2,10 +2,7 @@ package com.example.core.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.example.core.model.Food
-import com.example.core.model.Profile
-import com.example.core.model.RepositoryResult
-import com.example.core.model.User
+import com.example.core.model.*
 import com.example.core.model.requests.*
 import com.example.core.model.responses.LoginResponse
 import com.example.core.model.responses.Response
@@ -51,4 +48,7 @@ interface Repository {
     fun getUserEntries(): LiveData<PagedList<User>>
 
     suspend fun getFoodEntryCount(from: Long, to: Long): RepositoryResult<Int>
+
+    suspend fun getUsersAverageCalories(from: Long, to: Long):
+            RepositoryResult<PagedList<UserAverageCalories>>
 }

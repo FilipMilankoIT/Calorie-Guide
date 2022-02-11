@@ -66,4 +66,11 @@ internal interface AuthApiRetrofit {
         @Query("from") from: Long?,
         @Query("to") to: Long?
     ): Response<GetFoodEntryCountResponseDTO>
+
+    @GET("report/user/calories/average")
+    suspend fun getUsersAverageCalories(
+        @Header("Authorization") authorization: String,
+        @Query("from") from: Long?,
+        @Query("to") to: Long?
+    ): Response<GetUsersAverageCaloriesDTO>
 }

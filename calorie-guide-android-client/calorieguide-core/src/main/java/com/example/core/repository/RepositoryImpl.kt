@@ -17,6 +17,7 @@ import com.example.core.model.responses.Response
 import com.example.core.storage.room.AppDatabase
 import com.example.core.storage.room.toEntry
 import com.example.core.storage.room.toModel
+import com.example.core.utils.PagedListConverter
 import com.example.core.utils.SingleLiveEvent
 
 internal class RepositoryImpl(
@@ -66,11 +67,13 @@ internal class RepositoryImpl(
         }
 
     override suspend fun signOut() {
-        dataProvider.remove(TOKEN_KEY)
-        dataProvider.remove(PROFILE_KEY)
-        db.foodDao().deleteAll()
-        db.userDao().deleteAll()
-        _onSignOut.value = true
+        if (getToken() != null) {
+            dataProvider.remove(TOKEN_KEY)
+            dataProvider.remove(PROFILE_KEY)
+            db.foodDao().deleteAll()
+            db.userDao().deleteAll()
+            _onSignOut.value = true
+        }
     }
 
     override fun onSignOut(): LiveData<Boolean> = onSignOut
@@ -228,6 +231,28 @@ internal class RepositoryImpl(
         when (val result = calorieGuideApi.getFoodEntryCount(getToken() ?: "", from, to)) {
             is ApiResult.Success -> {
                 RepositoryResult.Success(result.data.count ?: 0)
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
+
+    override suspend fun getUsersAverageCalories(
+        from: Long,
+        to: Long
+    ): RepositoryResult<PagedList<UserAverageCalories>>  =
+        when (val result = calorieGuideApi.getUsersAverageCalories(
+            getToken() ?: "", from, to)
+        ) {
+            is ApiResult.Success -> {
+                val list: List<UserAverageCalories> =
+                    result.data.items?.mapNotNull { it.toModel() } ?: listOf()
+                val pagedList = PagedListConverter<UserAverageCalories>().convert(list, 20)
+                RepositoryResult.Success(pagedList)
             }
             is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
             is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)

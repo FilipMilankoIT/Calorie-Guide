@@ -52,4 +52,10 @@ interface CalorieGuideApi {
         from: Long?,
         to: Long?
     ): ApiResult<GetFoodEntryCountResponseDTO>
+
+    suspend fun getUsersAverageCalories(
+        authorization: String,
+        from: Long?,
+        to: Long?
+    ): ApiResult<GetUsersAverageCaloriesDTO>
 }
