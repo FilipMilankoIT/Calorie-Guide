@@ -6,10 +6,7 @@ import androidx.paging.toLiveData
 import com.example.core.storage.DataProvider
 import com.example.api.CalorieGuideApi
 import com.example.api.model.ApiResult
-import com.example.core.model.ErrorCode
-import com.example.core.model.Food
-import com.example.core.model.Profile
-import com.example.core.model.RepositoryResult
+import com.example.core.model.*
 import com.example.core.model.converters.reqests.toDTO
 import com.example.core.model.converters.responses.toEntityList
 import com.example.core.model.converters.responses.toModel
@@ -68,9 +65,11 @@ internal class RepositoryImpl(
             is ApiResult.SessionExpired -> RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
         }
 
-    override fun signOut() {
+    override suspend fun signOut() {
         dataProvider.remove(TOKEN_KEY)
         dataProvider.remove(PROFILE_KEY)
+        db.foodDao().deleteAll()
+        db.userDao().deleteAll()
         _onSignOut.value = true
     }
 
@@ -119,7 +118,7 @@ internal class RepositoryImpl(
         when (val result = calorieGuideApi.getFoodList(getToken() ?: "",
             username, from, to)) {
             is ApiResult.Success -> {
-                db.foodDao().deleteFoodEntriesByTimeRange(from, to)
+                db.foodDao().deleteFoodEntriesByTimeRange(username, from, to)
                 db.foodDao().insertAll(result.data.toEntityList())
                 RepositoryResult.Success(true)
             }
@@ -205,4 +204,23 @@ internal class RepositoryImpl(
 
     override suspend fun getCalorieSumByTimeRange(username: String, from: Long, to: Long) =
         db.foodDao().getCalorieSumByTimeRange(username, from, to)
+
+    override suspend fun syncUserEntries(exclusiveStartKey: String?): RepositoryResult<Boolean>  =
+        when (val result = calorieGuideApi.getUsers(getToken() ?: "", exclusiveStartKey)) {
+            is ApiResult.Success -> {
+                db.userDao().deleteAll()
+                db.userDao().insertAll(result.data.toEntityList())
+                RepositoryResult.Success(true)
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
+
+    override fun getUserEntries(): LiveData<PagedList<User>> =
+        db.userDao().getAll().map { it.toModel() }.toLiveData(20)
 }

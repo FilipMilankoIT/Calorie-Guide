@@ -7,6 +7,11 @@
         android:title="@string/home_label" />
 
     <item
+        android:id="@+id/navigation_users"
+        android:icon="@drawable/people"
+        android:title="@string/users_label" />
+
+    <item
         android:id="@+id/navigation_report"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/report_label" />

@@ -12,6 +12,9 @@ interface FoodDao {
     @Query("SELECT * FROM food_table WHERE username = :username AND timestamp >= :from AND  timestamp <= :to ORDER BY timestamp DESC")
     fun getFoodEntriesByTimeRange(username: String, from: Long, to: Long): DataSource.Factory<Int, FoodEntity>
 
+    @Query("SELECT SUM(calories) FROM food_table WHERE username = :username AND timestamp >= :from AND  timestamp <= :to")
+    suspend fun getCalorieSumByTimeRange(username: String, from: Long, to: Long): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(food: FoodEntity)
 
@@ -24,9 +27,9 @@ interface FoodDao {
     @Query("DELETE FROM food_table  WHERE id = :id")
     suspend fun deleteFood(id: String)
 
-    @Query("DELETE FROM food_table WHERE timestamp >= :from AND  timestamp <= :to")
-    suspend fun deleteFoodEntriesByTimeRange(from: Long, to: Long)
+    @Query("DELETE FROM food_table WHERE username = :username AND timestamp >= :from AND  timestamp <= :to")
+    suspend fun deleteFoodEntriesByTimeRange(username: String, from: Long, to: Long)
 
-    @Query("SELECT SUM(calories) FROM food_table WHERE username = :username AND timestamp >= :from AND  timestamp <= :to")
-    suspend fun getCalorieSumByTimeRange(username: String, from: Long, to: Long): Int
+    @Query("DELETE FROM food_table")
+    suspend fun deleteAll()
 }

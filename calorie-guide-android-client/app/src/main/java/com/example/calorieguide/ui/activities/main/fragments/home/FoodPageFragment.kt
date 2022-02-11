@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorieguide.R
 import com.example.calorieguide.databinding.FragmentFoodPageBinding
@@ -18,12 +16,15 @@ import com.example.calorieguide.ui.dialogs.updatefooddialog.UpdateFoodDialogFrag
 import com.example.calorieguide.ui.recyclerview.food.FoodListAdapter
 import com.example.core.model.DEFAULT_DAILY_CALORIE_LIMIT
 import com.example.core.model.Food
+import com.example.core.model.User
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FoodPageFragment : Fragment(), DialogListener {
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
     private val profileViewModel: ProfileViewModel by activityViewModels()
     private val viewModel: FoodPageViewModel by viewModels()
 
@@ -31,8 +32,9 @@ class FoodPageFragment : Fragment(), DialogListener {
     private val binding get() = _binding!!
 
     companion object {
-        const val START_TIME_KEY = "start_time_key"
-        const val END_TIME_KEY = "end_time_key"
+        const val USER_KEY = "user"
+        const val START_TIME_KEY = "start_time"
+        const val END_TIME_KEY = "end_time"
     }
 
     override fun onCreateView(
@@ -47,48 +49,56 @@ class FoodPageFragment : Fragment(), DialogListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val startTime = arguments?.getLong(START_TIME_KEY)
+        val endTime = arguments?.getLong(END_TIME_KEY)
+        val user = arguments?.getParcelable<User>(USER_KEY)
+
         viewModel.calorieSum.observe(viewLifecycleOwner) {
             val sum = it ?: 0
             binding.progressBar.calorieCount.text = sum.toString()
             binding.progressBar.calorieProgressBar.progress = sum
         }
 
-        profileViewModel.profile.observe(viewLifecycleOwner) {
-            val limit = it?.dailyCalorieLimit ?: DEFAULT_DAILY_CALORIE_LIMIT
-            binding.progressBar.calorieLimit.text = getString(R.string.calories_count, limit)
-            binding.progressBar.calorieProgressBar.max = limit
+        if (user == null) {
+            profileViewModel.profile.observe(viewLifecycleOwner) {
+                val limit = it?.dailyCalorieLimit ?: DEFAULT_DAILY_CALORIE_LIMIT
+                binding.progressBar.calorieLimit.text = getString(R.string.calories_count, limit)
+                binding.progressBar.calorieProgressBar.max = limit
+            }
+        } else {
+            binding.progressBar.calorieLimit.text =
+                getString(R.string.calories_count, user.dailyCalorieLimit)
+            binding.progressBar.calorieProgressBar.max = user.dailyCalorieLimit
         }
 
         val adapter = FoodListAdapter(requireContext()) {
             UpdateFoodDialogFragment().show(childFragmentManager, it)
         }
+
         binding.foodList.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
         }
 
-        val startTime = arguments?.getLong(START_TIME_KEY)
-        val endTime = arguments?.getLong(END_TIME_KEY)
-
-        val listObserver = Observer<PagedList<Food>> {
+        viewModel.foodList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.emptyListMessage.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
 
         if (startTime != null && endTime != null) {
-            homeViewModel.refreshData(startTime, endTime)
-            viewModel.initList(startTime, endTime, viewLifecycleOwner, listObserver)
+            homeViewModel.refreshData(startTime, endTime, user?.username)
+            viewModel.initList(startTime, endTime, user?.username)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.refreshData(viewModel.getStartTime(), viewModel.getEndTime())
+            homeViewModel.refreshData(viewModel.getStartTime(), viewModel.getEndTime(), user?.username)
         }
 
         homeViewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             binding.swipeRefreshLayout.isRefreshing = isRefreshing
             if (!isRefreshing) {
-                viewModel.updateList(viewLifecycleOwner, listObserver)
+                viewModel.updateList()
                 viewModel.updateCalorieSum()
             }
         }

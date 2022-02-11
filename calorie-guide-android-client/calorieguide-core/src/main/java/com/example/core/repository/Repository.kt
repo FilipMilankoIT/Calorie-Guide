@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.example.core.model.Food
 import com.example.core.model.Profile
 import com.example.core.model.RepositoryResult
+import com.example.core.model.User
 import com.example.core.model.requests.*
 import com.example.core.model.responses.LoginResponse
 import com.example.core.model.responses.Response
@@ -15,7 +16,7 @@ interface Repository {
 
     suspend fun register(request: RegisterRequest): RepositoryResult<Response>
 
-    fun signOut()
+    suspend fun signOut()
 
     fun onSignOut() : LiveData<Boolean>
 
@@ -44,4 +45,8 @@ interface Repository {
     suspend fun getMyCalorieSumByTimeRange(from: Long, to: Long): Int
 
     suspend fun getCalorieSumByTimeRange(username: String, from: Long, to: Long): Int
+
+    suspend fun syncUserEntries(exclusiveStartKey: String?): RepositoryResult<Boolean>
+
+    fun getUserEntries(): LiveData<PagedList<User>>
 }

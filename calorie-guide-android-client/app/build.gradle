@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -73,9 +74,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
 
     // Navigation
-    def navigationVersion = '2.4.0'
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
 
     // Testing
     testImplementation "junit:junit:$junit"
@@ -90,8 +90,8 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson"
 
     // Hilt core
-    implementation "com.google.dagger:hilt-android:$rootProject.hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$rootProject.hilt_version"
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
 
     //Preference
     implementation 'androidx.preference:preference-ktx:1.2.0'

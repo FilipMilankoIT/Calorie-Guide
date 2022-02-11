@@ -28,7 +28,6 @@
         android:id="@+id/filter_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.calorieguide.ui.activities.main.fragments.home.FilterFoodPageFragment"
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

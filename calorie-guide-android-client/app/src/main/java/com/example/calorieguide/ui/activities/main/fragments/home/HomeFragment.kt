@@ -5,7 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.calorieguide.R
 import com.example.calorieguide.databinding.FragmentHomeBinding
@@ -15,16 +15,23 @@ import com.example.calorieguide.ui.pager.FoodPagerAdapter
 import com.example.calorieguide.ui.utils.OnBackPressedListener
 import com.example.calorieguide.utils.TimeUtils.toFormattedDate
 import com.example.core.model.Food
+import com.example.core.model.User
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnBackPressedListener, DialogListener {
 
-    private val viewModel: HomeViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private var user: User? = null
+
+    companion object {
+        const val USER_KEY = "user"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +50,16 @@ class HomeFragment : Fragment(), OnBackPressedListener, DialogListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.pager.adapter = FoodPagerAdapter(requireActivity())
+        user = arguments?.getParcelable(USER_KEY)
+
+        val fragment = FilterFoodPageFragment()
+        val args = Bundle()
+        args.putString(FilterFoodPageFragment.USERNAME_KEY, user?.username)
+        fragment.arguments = args
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.filter_page, fragment).commit()
+
+        binding.pager.adapter = FoodPagerAdapter(this, user)
         binding.pager.setCurrentItem(viewModel.currentPage, false)
         binding.pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
 
@@ -112,6 +128,7 @@ class HomeFragment : Fragment(), OnBackPressedListener, DialogListener {
     override fun onBackPressed(): Boolean {
         return if (viewModel.isFilterOn.value == true) {
             viewModel.toggleFilter()
+            requireActivity().invalidateOptionsMenu()
             true
         } else false
     }
@@ -119,7 +136,7 @@ class HomeFragment : Fragment(), OnBackPressedListener, DialogListener {
     override fun onDialogPositiveClick(tag: String, bundle: Bundle?) {
         val food: Food? = bundle?.getParcelable(AddFoodDialogFragment.FOOD_ITEM_KEY)
         if (food != null) {
-            viewModel.addFoodItem(food)
+            viewModel.addFoodItem(food, user?.username)
         }
     }
 

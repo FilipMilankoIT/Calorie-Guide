@@ -34,14 +34,16 @@ class HomeViewModel @Inject constructor(val repository: Repository) : ViewModel(
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
 
-    fun refreshData(from: Long, to: Long) {
+    fun refreshData(from: Long, to: Long, username: String?) {
         viewModelScope.launch {
             _isRefreshing.value = true
-            when(val result = repository.syncMyFoodEntries(from, to)) {
-                is RepositoryResult.Error -> {
-                    if (result.code == ErrorCode.UNAUTHORIZED.code) {
-                        _tokenError.value = R.string.token_expired
-                    }
+
+            val result = if (username == null) repository.syncMyFoodEntries(from, to)
+            else repository.syncFoodEntries(username, from, to)
+
+            if (result is RepositoryResult.Error) {
+                if (result.code == ErrorCode.UNAUTHORIZED.code) {
+                    _tokenError.value = R.string.token_expired
                 }
             }
             _isRefreshing.value = false
@@ -52,10 +54,10 @@ class HomeViewModel @Inject constructor(val repository: Repository) : ViewModel(
         _isFilterOn.value = _isFilterOn.value != true
     }
 
-    fun addFoodItem(food: Food) {
+    fun addFoodItem(food: Food, username: String?) {
         viewModelScope.launch {
             _waiting.value = true
-            val request = AddFoodRequest(null, food.name, food.timestamp, food.calories)
+            val request = AddFoodRequest(username, food.name, food.timestamp, food.calories)
             when(val result = repository.addFood(request)) {
                 is RepositoryResult.Success -> _isRefreshing.value = false
                 is RepositoryResult.Error -> {

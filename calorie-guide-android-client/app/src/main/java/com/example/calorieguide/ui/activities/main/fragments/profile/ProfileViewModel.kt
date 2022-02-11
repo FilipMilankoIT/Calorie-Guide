@@ -91,7 +91,9 @@ class ProfileViewModel @Inject constructor(private val repository: Repository) :
 
     fun signOut() {
         _waiting.value = true
-        repository.signOut()
+        viewModelScope.launch {
+            repository.signOut()
+        }
     }
 
     fun deleteUser() {

@@ -1,17 +1,16 @@
 package com.example.calorieguide.ui.pager
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.calorieguide.ui.activities.main.fragments.home.FoodPageFragment
 import android.os.Bundle
 import com.example.calorieguide.utils.TimeUtils.DAY
 import com.example.calorieguide.utils.TimeUtils.SECOND
 import com.example.calorieguide.utils.TimeUtils.getStartOfDay
+import com.example.core.model.User
 import java.util.*
 
-
-class FoodPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+class FoodPagerAdapter(fragment: Fragment, val user: User?) : FragmentStateAdapter(fragment) {
 
     companion object {
         const val LEFT_END_POSITION = 0
@@ -30,6 +29,7 @@ class FoodPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activi
         val startTime = getStartTimeFromPosition(position)
         args.putLong(FoodPageFragment.START_TIME_KEY, startTime)
         args.putLong(FoodPageFragment.END_TIME_KEY, startTime + DAY - SECOND)
+        args.putParcelable(FoodPageFragment.USER_KEY, user)
         fragment.arguments = args
         return fragment
     }

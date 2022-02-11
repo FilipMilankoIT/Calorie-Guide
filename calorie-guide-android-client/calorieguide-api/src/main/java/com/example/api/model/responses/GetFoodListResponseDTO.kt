@@ -4,4 +4,4 @@ import androidx.annotation.Keep
 import com.example.api.model.FoodDTO
 
 @Keep
-data class GetFoodListResponse(val items: List<FoodDTO>?)
+data class GetFoodListResponseDTO(val items: List<FoodDTO>?)

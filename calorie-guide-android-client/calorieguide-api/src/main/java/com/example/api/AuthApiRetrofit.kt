@@ -2,7 +2,8 @@ package com.example.api
 
 import com.example.api.model.FoodDTO
 import com.example.api.model.requests.*
-import com.example.api.model.responses.GetFoodListResponse
+import com.example.api.model.responses.GetFoodListResponseDTO
+import com.example.api.model.responses.GetUsersResponseDTO
 import com.example.api.model.responses.LoginResponseDTO
 import com.example.api.model.responses.ResponseDTO
 import retrofit2.Response
@@ -35,7 +36,7 @@ internal interface AuthApiRetrofit {
         @Query("username") username: String?,
         @Query("from") from: Long?,
         @Query("to") to: Long?
-    ): Response<GetFoodListResponse>
+    ): Response<GetFoodListResponseDTO>
 
     @POST("food")
     suspend fun addFood(
@@ -55,4 +56,10 @@ internal interface AuthApiRetrofit {
         @Header("Authorization") authorization: String,
         @Path("id") id: String
     ): Response<ResponseDTO>
+
+    @GET("users")
+    suspend fun getUsers(
+        @Header("Authorization") authorization: String,
+        @Query("exclusiveStartKey") exclusiveStartKey: String?
+    ): Response<GetUsersResponseDTO>
 }

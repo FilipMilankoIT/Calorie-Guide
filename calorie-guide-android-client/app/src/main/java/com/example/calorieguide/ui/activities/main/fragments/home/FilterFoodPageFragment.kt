@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorieguide.databinding.FragmentFilterFoodPageBinding
 import com.example.calorieguide.ui.dialogs.DialogListener
@@ -25,11 +22,17 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FilterFoodPageFragment : Fragment(), DialogListener {
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
     private val viewModel: FoodPageViewModel by viewModels()
 
     private var _binding: FragmentFilterFoodPageBinding? = null
     private val binding get() = _binding!!
+
+    companion object {
+        const val USERNAME_KEY = "username"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,28 +46,33 @@ class FilterFoodPageFragment : Fragment(), DialogListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val username = arguments?.getString(USERNAME_KEY)
+
+        viewModel.initList(viewModel.getStartTime(), viewModel.getEndTime(), username)
+
         val adapter = FoodListAdapter(requireContext()) {
             UpdateFoodDialogFragment().show(childFragmentManager, it)
         }
+
         binding.foodList.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
         }
 
-        val listObserver = Observer<PagedList<Food>> {
+        viewModel.foodList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.emptyListMessage.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.refreshData(viewModel.getStartTime(), viewModel.getEndTime())
+            homeViewModel.refreshData(viewModel.getStartTime(), viewModel.getEndTime(), username)
         }
 
         homeViewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             binding.swipeRefreshLayout.isRefreshing = isRefreshing
             if (!isRefreshing) {
-                viewModel.updateList(viewLifecycleOwner, listObserver)
+                viewModel.updateList()
             }
         }
 
@@ -74,8 +82,8 @@ class FilterFoodPageFragment : Fragment(), DialogListener {
             datePicker.addOnPositiveButtonClickListener {
                 if (it != null) {
                     val fromTime = it.toLocalTime()
-                    viewModel.initList(fromTime, viewModel.getEndTime(), viewLifecycleOwner, listObserver)
-                    homeViewModel.refreshData(fromTime, viewModel.getEndTime())
+                    viewModel.initList(fromTime, viewModel.getEndTime(), username)
+                    homeViewModel.refreshData(fromTime, viewModel.getEndTime(), username)
                     binding.listHeader.fromButton.text = fromTime.toFormattedDate()
                 }
             }
@@ -88,9 +96,8 @@ class FilterFoodPageFragment : Fragment(), DialogListener {
             datePicker.addOnPositiveButtonClickListener {
                 if (it != null) {
                     val toTime = it.toLocalTime() + DAY - SECOND
-                    viewModel.initList(viewModel.getStartTime(), toTime, viewLifecycleOwner,
-                        listObserver)
-                    homeViewModel.refreshData(viewModel.getStartTime(), toTime)
+                    viewModel.initList(viewModel.getStartTime(), toTime, username)
+                    homeViewModel.refreshData(viewModel.getStartTime(), toTime, username)
                     binding.listHeader.toButton.text = toTime.toFormattedDate()
                 }
             }

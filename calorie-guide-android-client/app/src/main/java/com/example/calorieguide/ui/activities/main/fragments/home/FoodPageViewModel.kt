@@ -16,37 +16,52 @@ import javax.inject.Inject
 @HiltViewModel
 class FoodPageViewModel @Inject constructor(val repository: Repository) : ViewModel() {
 
-    private var _startTime = getStartOfDay(Date())
+    private var startTime = getStartOfDay(Date())
+    private var endTime = startTime + DAY - SECOND
+    private var username: String? = null
 
-    private var _endTime = _startTime + DAY - SECOND
+    private val _foodList = MutableLiveData<PagedList<Food>>()
+    val foodList: LiveData<PagedList<Food>> = _foodList
 
-    private var _foodList = repository.getMyFoodEntries(_startTime, _endTime)
+    private val rootFoodListObserver = Observer<PagedList<Food>> {
+        _foodList.value = it
+    }
+
+    private var rootFoodList: LiveData<PagedList<Food>> = MutableLiveData()
 
     private val _calorieSum = MutableLiveData(0)
     val calorieSum: LiveData<Int> = _calorieSum
 
-    fun initList(startTime: Long, endTime: Long, lifecycleOwner: LifecycleOwner,
-                 observer: Observer<PagedList<Food>>) {
-        _startTime = startTime
-        _endTime = endTime
-        _foodList.removeObserver(observer)
-        _foodList = repository.getMyFoodEntries(startTime, endTime)
-        _foodList.observe(lifecycleOwner, observer)
+    fun initList(startTime: Long, endTime: Long, username: String?) {
+        this.startTime = startTime
+        this.endTime = endTime
+        this.username = username
+        updateList()
     }
 
-    fun updateList(lifecycleOwner: LifecycleOwner, observer: Observer<PagedList<Food>>) {
-        _foodList.removeObserver(observer)
-        _foodList = repository.getMyFoodEntries(_startTime, _endTime)
-        _foodList.observe(lifecycleOwner, observer)
+    fun updateList() {
+        rootFoodList.removeObserver(rootFoodListObserver)
+        val username = username
+        rootFoodList = if (username == null) repository.getMyFoodEntries(startTime, endTime)
+        else repository.getFoodEntries(username, startTime, endTime)
+        rootFoodList.observeForever(rootFoodListObserver)
     }
 
-    fun getStartTime() = _startTime
+    fun getStartTime() = startTime
 
-    fun getEndTime() = _endTime
+    fun getEndTime() = endTime
 
     fun updateCalorieSum() {
         viewModelScope.launch {
-            _calorieSum.value = repository.getMyCalorieSumByTimeRange(_startTime, _endTime)
+            val username = username
+            _calorieSum.value = if (username == null)
+                repository.getMyCalorieSumByTimeRange(startTime, endTime)
+            else repository.getCalorieSumByTimeRange(username, startTime, endTime)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        rootFoodList.removeObserver(rootFoodListObserver)
     }
 }

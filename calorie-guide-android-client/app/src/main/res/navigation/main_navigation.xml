@@ -22,4 +22,26 @@
         android:name="com.example.calorieguide.ui.activities.main.fragments.profile.ProfileFragment"
         android:label="@string/profile_label"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_users"
+        android:name="com.example.calorieguide.ui.activities.main.fragments.users.UsersFragment"
+        android:label="@string/users_label"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_navigation_users_to_navigation_users_food_list"
+            app:destination="@id/navigation_users_food_list"
+            app:popUpTo="@id/navigation_users" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_users_food_list"
+        android:name="com.example.calorieguide.ui.activities.main.fragments.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <argument
+            android:name="user"
+            app:argType="com.example.core.model.User"/>
+
+    </fragment>
 </navigation>

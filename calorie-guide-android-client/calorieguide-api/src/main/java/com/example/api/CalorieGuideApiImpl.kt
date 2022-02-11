@@ -58,7 +58,7 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
         username: String?,
         from: Long?,
         to: Long?
-    ): ApiResult<GetFoodListResponse> =
+    ): ApiResult<GetFoodListResponseDTO> =
         getResponse { service.getFoodList(authorization, username, from, to) }
 
     override suspend fun addFood(
@@ -76,6 +76,10 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
 
     override suspend fun deleteFood(authorization: String, id: String): ApiResult<ResponseDTO> =
         getResponse { service.deleteFood(authorization, id) }
+
+    override suspend fun getUsers(authorization: String, exclusiveStartKey: String?):
+            ApiResult<GetUsersResponseDTO> =
+        getResponse { service.getUsers(authorization, exclusiveStartKey) }
 
     private suspend fun <T> getResponse(apiCall: suspend () -> Response<T>): ApiResult<T> {
         try {

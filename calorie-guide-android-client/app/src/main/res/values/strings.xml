@@ -77,4 +77,7 @@
 
     <!-- Update food dialog -->
     <string name="update_food_title">Update food entry</string>
+
+    <!-- Users fragment -->
+    <string name="users_label">Users</string>
 </resources>

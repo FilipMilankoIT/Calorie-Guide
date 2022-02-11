@@ -24,7 +24,8 @@ class LoginResponse extends Response {
     static okResponse(token, user) {
         const body = {
             token,
-            username: user.username
+            username: user.username,
+            role: user.role
         }
         if (user.firstName) {
             body.firstName = user.firstName
