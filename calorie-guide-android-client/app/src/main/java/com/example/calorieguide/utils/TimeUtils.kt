@@ -9,6 +9,7 @@ object TimeUtils {
     const val MINUTE = 60 * SECOND
     const val HOUR = 60 * MINUTE
     const val DAY = 24 * HOUR
+    const val WEEK = 7 * DAY
 
     fun Long.toFormattedDate(): String {
         val formatter = SimpleDateFormat("dd.MM.yyyy.", Locale.getDefault())

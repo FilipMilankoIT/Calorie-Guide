@@ -91,4 +91,16 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+
+    <style name="report_title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="report_number">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+    </style>
 </resources>

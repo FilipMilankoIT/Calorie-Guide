@@ -81,6 +81,13 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
             ApiResult<GetUsersResponseDTO> =
         getResponse { service.getUsers(authorization, exclusiveStartKey) }
 
+    override suspend fun getFoodEntryCount(
+        authorization: String,
+        from: Long?,
+        to: Long?
+    ): ApiResult<GetFoodEntryCountResponseDTO> =
+        getResponse { service.getFoodEntryCount(authorization, from, to) }
+
     private suspend fun <T> getResponse(apiCall: suspend () -> Response<T>): ApiResult<T> {
         try {
             val result = apiCall()

@@ -223,4 +223,18 @@ internal class RepositoryImpl(
 
     override fun getUserEntries(): LiveData<PagedList<User>> =
         db.userDao().getAll().map { it.toModel() }.toLiveData(20)
+
+    override suspend fun getFoodEntryCount(from: Long, to: Long): RepositoryResult<Int>  =
+        when (val result = calorieGuideApi.getFoodEntryCount(getToken() ?: "", from, to)) {
+            is ApiResult.Success -> {
+                RepositoryResult.Success(result.data.count ?: 0)
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
 }

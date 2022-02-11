@@ -49,4 +49,6 @@ interface Repository {
     suspend fun syncUserEntries(exclusiveStartKey: String?): RepositoryResult<Boolean>
 
     fun getUserEntries(): LiveData<PagedList<User>>
+
+    suspend fun getFoodEntryCount(from: Long, to: Long): RepositoryResult<Int>
 }

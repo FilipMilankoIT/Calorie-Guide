@@ -3,10 +3,7 @@ package com.example.api
 import com.example.api.model.ApiResult
 import com.example.api.model.FoodDTO
 import com.example.api.model.requests.*
-import com.example.api.model.responses.GetFoodListResponseDTO
-import com.example.api.model.responses.GetUsersResponseDTO
-import com.example.api.model.responses.LoginResponseDTO
-import com.example.api.model.responses.ResponseDTO
+import com.example.api.model.responses.*
 
 interface CalorieGuideApi {
 
@@ -49,4 +46,10 @@ interface CalorieGuideApi {
         authorization: String,
         exclusiveStartKey: String?
     ): ApiResult<GetUsersResponseDTO>
+
+    suspend fun getFoodEntryCount(
+        authorization: String,
+        from: Long?,
+        to: Long?
+    ): ApiResult<GetFoodEntryCountResponseDTO>
 }

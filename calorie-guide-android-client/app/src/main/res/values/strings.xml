@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Calorie Guide</string>
 
-    <!-- Login fragment -->
+    <!-- Login page -->
     <string name="username_label">Username</string>
     <string name="password_label">Password</string>
     <string name="sign_in_label">Sign In</string>
@@ -12,7 +12,7 @@
     <string name="login_success">Welcome!</string>
     <string name="error_login">Incorrect username or password</string>
 
-    <!-- Register fragment -->
+    <!-- Register page -->
     <string name="registration_title">Registration</string>
     <string name="confirm_password_label">Confirm Password</string>
     <string name="first_name_label">First Name</string>
@@ -40,7 +40,7 @@
     <string name="token_expired">Session expired, you need to login again</string>
     <string name="error_item_not_found">Failed to find requested item. Make sure your list is refreshed.</string>
 
-    <!-- Home fragment -->
+    <!-- Home page -->
     <string name="home_label">Home</string>
     <string name="search_label">Search</string>
     <string name="calories_count">%d kcal</string>
@@ -48,10 +48,10 @@
     <string name="calorie_count_title">Calorie count</string>
     <string name="slash">/</string>
 
-    <!-- Report fragment -->
+    <!-- Report page -->
     <string name="report_label">Report</string>
 
-    <!-- Profile fragment -->
+    <!-- Profile page -->
     <string name="profile_label">Profile</string>
     <string name="save_label">Save</string>
     <string name="sign_out_label">Sign Out</string>
@@ -78,6 +78,11 @@
     <!-- Update food dialog -->
     <string name="update_food_title">Update food entry</string>
 
-    <!-- Users fragment -->
+    <!-- Users page -->
     <string name="users_label">Users</string>
+
+    <!-- Report page -->
+    <string name="food_entry_count_title">Food entry count</string>
+    <string name="this_week_title">This week</string>
+    <string name="last_week_title">Last week</string>
 </resources>
