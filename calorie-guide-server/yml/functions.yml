@@ -114,6 +114,8 @@ DeleteUser:
   decription: Lambda function for handling DELETE users/{username} API requests.
   environment:
     userTable: !Ref UserTable
+    foodTable: !Ref FoodTable
+    foodTableIndex: ${self:provider.foodByUsernameIndex}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -121,6 +123,13 @@ DeleteUser:
         - dynamodb:DeleteItem
       Resource:
         - !GetAtt UserTable.Arn
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:DeleteItem
+      Resource:
+        - !GetAtt FoodTable.Arn
+        - !Join [ "/", [ !GetAtt FoodTable.Arn, index, "${self:provider.foodByUsernameIndex}" ]]
   events:
     - http:
         path: v1/users/{username}

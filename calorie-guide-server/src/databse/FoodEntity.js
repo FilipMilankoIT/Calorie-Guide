@@ -203,6 +203,21 @@ class FoodEntity {
         }
         return dynamoDb.deleteItem(params)
     }
+
+    /**
+     * Deletes Food object from the table.
+     *
+     * @param {string} username - User's username.
+     * @returns {Promise<Boolean>}
+     */
+    deleteAllUsersFood = async (username) => {
+        console.log(`Deleting all food items for ${username}...`)
+        const list = await this.getUserFood(username)
+        for(const food of list) {
+            await this.delete(food.id)
+        }
+        return true
+    }
 }
 
 module.exports = FoodEntity

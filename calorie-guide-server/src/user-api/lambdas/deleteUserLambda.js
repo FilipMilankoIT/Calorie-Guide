@@ -3,6 +3,7 @@
 const DeleteUserRequest = require('../../model/api-request/DeleteUserRequest')
 const DeleteUserResponse = require('../../model/api-response/DeleteUserResponse')
 const UserEntity = require('../../databse/UserEntity')
+const FoodEntity = require('../../databse/FoodEntity')
 const Role = require('../../model/Role').Role
 const {getRoleRank} = require('../../model/Role')
 const ErrorCode = require('../../model/api-response/Response').ErrorCode
@@ -33,6 +34,7 @@ module.exports.handler = async (event) => {
 
     try {
         const userEntity = new UserEntity(process.env.userTable)
+        const foodEntity = new FoodEntity(process.env.foodTable, process.env.foodTableIndex)
 
         const role = await userEntity.getRole(request.senderUsername)
 
@@ -53,6 +55,7 @@ module.exports.handler = async (event) => {
         }
 
         await userEntity.delete(request.username)
+        await foodEntity.deleteAllUsersFood(request.username)
 
         console.log(`Successfully deleted ${request.username} user`)
 
