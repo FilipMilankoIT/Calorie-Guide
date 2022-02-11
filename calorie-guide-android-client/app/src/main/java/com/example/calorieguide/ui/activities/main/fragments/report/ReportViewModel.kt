@@ -50,13 +50,17 @@ class ReportViewModel @Inject constructor(val repository: Repository) : ViewMode
             val startOfLastWeek = startOfThisWeek - WEEK
             val endOfLastWeek = startOfThisWeek - SECOND
 
-            _thisWeekCount.value =
-                handleResult(repository.getFoodEntryCount(startOfThisWeek, endOfThisWeek)) ?: 0
-            _lastWeekCount.value =
-                handleResult(repository.getFoodEntryCount(startOfLastWeek, endOfLastWeek)) ?: 0
+            handleResult(repository.getFoodEntryCount(startOfThisWeek, endOfThisWeek))?.let {
+                _thisWeekCount.value = it
+            }
 
-            _userList.value =
-                handleResult(repository.getUsersAverageCalories(startOfThisWeek, endOfThisWeek))
+            handleResult(repository.getFoodEntryCount(startOfLastWeek, endOfLastWeek))?.let {
+                _lastWeekCount.value = it
+            }
+
+            handleResult(repository.getUsersAverageCalories(startOfThisWeek, endOfThisWeek))?.let {
+                _userList.value = it
+            }
 
             _isRefreshing.value = false
         }

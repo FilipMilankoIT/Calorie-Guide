@@ -50,7 +50,7 @@ class FilterFoodPageFragment : Fragment(), DialogListener {
 
         viewModel.initList(viewModel.getStartTime(), viewModel.getEndTime(), username)
 
-        val adapter = FoodListAdapter(requireContext()) {
+        val adapter = FoodListAdapter(requireContext(), true) {
             UpdateFoodDialogFragment().show(childFragmentManager, it)
         }
 

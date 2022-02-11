@@ -52,12 +52,14 @@ class HomeFragment : Fragment(), OnBackPressedListener, DialogListener {
 
         user = arguments?.getParcelable(USER_KEY)
 
-        val fragment = FilterFoodPageFragment()
-        val args = Bundle()
-        args.putString(FilterFoodPageFragment.USERNAME_KEY, user?.username)
-        fragment.arguments = args
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.filter_page, fragment).commit()
+        if (savedInstanceState == null) {
+            val fragment = FilterFoodPageFragment()
+            val args = Bundle()
+            args.putString(FilterFoodPageFragment.USERNAME_KEY, user?.username)
+            fragment.arguments = args
+            val fragmentTransaction = childFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.filter_page, fragment).commit()
+        }
 
         binding.pager.adapter = FoodPagerAdapter(this, user)
         binding.pager.setCurrentItem(viewModel.currentPage, false)

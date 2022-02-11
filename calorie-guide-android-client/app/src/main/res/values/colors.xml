@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Color palette -->
+    <color name="orange100">#FFCC80</color>
     <color name="orange200">#ff7539</color>
     <color name="orange400">#ff3d00</color>
     <color name="orange700">#c30000</color>

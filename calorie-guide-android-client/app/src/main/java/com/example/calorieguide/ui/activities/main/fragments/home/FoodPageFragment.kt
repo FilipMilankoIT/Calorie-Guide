@@ -71,7 +71,7 @@ class FoodPageFragment : Fragment(), DialogListener {
             binding.progressBar.calorieProgressBar.max = user.dailyCalorieLimit
         }
 
-        val adapter = FoodListAdapter(requireContext()) {
+        val adapter = FoodListAdapter(requireContext(), false) {
             UpdateFoodDialogFragment().show(childFragmentManager, it)
         }
 
