@@ -7,6 +7,8 @@ import com.google.android.material.timepicker.TimeFormat
 
 object TimePicker {
 
+    const val TAG = "TimePicker"
+
     fun get(selectedTime: Long?) = MaterialTimePicker.Builder()
         .setTimeFormat(TimeFormat.CLOCK_24H)
         .setHour(selectedTime?.getHour() ?: 0)

@@ -12,10 +12,14 @@ import androidx.fragment.app.viewModels
 import com.example.calorieguide.databinding.AddFoodDialogBinding
 import com.example.calorieguide.R
 import com.example.calorieguide.ui.dialogs.DialogListener
-import com.example.calorieguide.ui.utils.DateTimePicker
+import com.example.calorieguide.ui.utils.DatePicker
+import com.example.calorieguide.ui.utils.TimePicker
 import com.example.calorieguide.utils.TimeUtils.toFormattedTimeDate
 import com.example.core.model.Food
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AddFoodDialogFragment : DialogFragment() {
@@ -46,13 +50,44 @@ class AddFoodDialogFragment : DialogFragment() {
                 ViewGroup.LayoutParams.WRAP_CONTENT)
         }
 
+        val timePickerListener: (timePicker: MaterialTimePicker, timestamp: Long) -> Unit =
+            { timePicker, timestamp ->
+                val cal = Calendar.getInstance()
+                cal.timeInMillis = timestamp
+                cal[Calendar.HOUR_OF_DAY] = timePicker.hour
+                cal[Calendar.MINUTE] = timePicker.minute
+                viewModel.setTimeDate(cal.timeInMillis)
+            }
+
+        val datePickerListener: (timestamp: Long?) -> Unit = { timestamp ->
+            if (timestamp != null) {
+                viewModel.selectedDate = timestamp
+                val timePicker = TimePicker.get(viewModel.timeDate.value)
+                timePicker.addOnPositiveButtonClickListener {
+                    timePickerListener(timePicker, timestamp)
+                }
+                timePicker.show(childFragmentManager, TimePicker.TAG)
+            }
+        }
+
         binding.timeDate.setOnClickListener {
-            DateTimePicker.show(
-                childFragmentManager,
-                "TimeDatePicker",
-                viewModel.timeDate.value
-            ) {
-                viewModel.setTimeDate(it)
+            val datePicker = DatePicker.get(viewModel.timeDate.value, true)
+            datePicker.addOnPositiveButtonClickListener {
+                datePickerListener(it)
+            }
+            datePicker.show(childFragmentManager, DatePicker.TAG)
+        }
+
+        (childFragmentManager.findFragmentByTag(DatePicker.TAG) as? MaterialDatePicker<*>)
+            ?.addOnPositiveButtonClickListener {
+                datePickerListener(it as? Long)
+            }
+
+        (childFragmentManager.findFragmentByTag(TimePicker.TAG) as? MaterialTimePicker)?.apply {
+            addOnPositiveButtonClickListener {
+                viewModel.selectedDate?.let {
+                    timePickerListener(this, it)
+                }
             }
         }
 

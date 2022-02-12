@@ -58,15 +58,17 @@ class FoodListAdapter(
         super.onCurrentListChanged(previousList, currentList)
         if (showDate) {
             currentList?.forEachIndexed { index, item ->
+                item ?: return
                 if (index == 0 || item.timestamp.toFormattedDate() !=
                     currentList[index - 1]?.timestamp?.toFormattedDate()) {
                     notifyItemChanged(index)
                 }
             }
             previousList?.forEachIndexed { index, item ->
+                item ?: return
                 if (index == 0 || item.timestamp.toFormattedDate() !=
                     previousList[index - 1]?.timestamp?.toFormattedDate()) {
-                        currentList?.find { it.id == item.id }?.let {
+                        currentList?.find { it?.id == item.id }?.let {
                             notifyItemChanged(currentList.indexOf(it))
                         }
                 }

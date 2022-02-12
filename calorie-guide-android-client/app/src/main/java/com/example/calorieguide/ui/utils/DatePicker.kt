@@ -9,6 +9,8 @@ import java.util.*
 
 object DatePicker {
 
+    const val TAG = "DatePicker"
+
     fun get(selectedTime: Long?, futureAllowed: Boolean = true): MaterialDatePicker<Long> {
         val calendarConstraintsBuilder = CalendarConstraints.Builder()
             .setEnd(getStartOfDay(Date()).toUTCTime())

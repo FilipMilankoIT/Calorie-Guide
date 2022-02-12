@@ -17,6 +17,7 @@ import com.example.calorieguide.utils.TimeUtils.SECOND
 import com.example.calorieguide.utils.TimeUtils.toFormattedDate
 import com.example.calorieguide.utils.TimeUtils.toLocalTime
 import com.example.core.model.Food
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,33 +77,51 @@ class FilterFoodPageFragment : Fragment(), DialogListener {
             }
         }
 
+        val fromDatePickerListener: (timestamp: Long?) -> Unit = {
+            if (it != null) {
+                val fromTime = it.toLocalTime()
+                viewModel.initList(fromTime, viewModel.getEndTime(), username)
+                homeViewModel.refreshData(fromTime, viewModel.getEndTime(), username)
+                binding.listHeader.fromButton.text = fromTime.toFormattedDate()
+            }
+        }
+
         binding.listHeader.fromButton.text = viewModel.getStartTime().toFormattedDate()
         binding.listHeader.fromButton.setOnClickListener {
             val datePicker = DatePicker.get(viewModel.getStartTime())
             datePicker.addOnPositiveButtonClickListener {
-                if (it != null) {
-                    val fromTime = it.toLocalTime()
-                    viewModel.initList(fromTime, viewModel.getEndTime(), username)
-                    homeViewModel.refreshData(fromTime, viewModel.getEndTime(), username)
-                    binding.listHeader.fromButton.text = fromTime.toFormattedDate()
-                }
+                fromDatePickerListener(it)
             }
             datePicker.show(childFragmentManager, "FromDatePicker")
+        }
+
+        (childFragmentManager.findFragmentByTag("FromDatePicker") as? MaterialDatePicker<*>)
+            ?.addOnPositiveButtonClickListener {
+                fromDatePickerListener(it as? Long)
+            }
+
+        val toDatePickerListener: (timestamp: Long?) -> Unit = {
+            if (it != null) {
+                val toTime = it.toLocalTime() + DAY - SECOND
+                viewModel.initList(viewModel.getStartTime(), toTime, username)
+                homeViewModel.refreshData(viewModel.getStartTime(), toTime, username)
+                binding.listHeader.toButton.text = toTime.toFormattedDate()
+            }
         }
 
         binding.listHeader.toButton.text = viewModel.getEndTime().toFormattedDate()
         binding.listHeader.toButton.setOnClickListener {
             val datePicker = DatePicker.get(viewModel.getEndTime())
             datePicker.addOnPositiveButtonClickListener {
-                if (it != null) {
-                    val toTime = it.toLocalTime() + DAY - SECOND
-                    viewModel.initList(viewModel.getStartTime(), toTime, username)
-                    homeViewModel.refreshData(viewModel.getStartTime(), toTime, username)
-                    binding.listHeader.toButton.text = toTime.toFormattedDate()
-                }
+                toDatePickerListener(it)
             }
             datePicker.show(childFragmentManager, "ToDatePicker")
         }
+
+        (childFragmentManager.findFragmentByTag("ToDatePicker") as? MaterialDatePicker<*>)
+            ?.addOnPositiveButtonClickListener {
+                toDatePickerListener(it as? Long)
+            }
     }
 
     override fun onDestroyView() {

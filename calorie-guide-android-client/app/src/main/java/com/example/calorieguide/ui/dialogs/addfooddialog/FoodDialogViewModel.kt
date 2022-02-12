@@ -8,6 +8,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FoodDialogViewModel @Inject constructor() : ViewModel() {
 
+    var selectedDate: Long? = null
+
     private val _timeDate = MutableLiveData<Long?>()
     val timeDate: LiveData<Long?> = _timeDate
 

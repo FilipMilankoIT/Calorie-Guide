@@ -16,6 +16,7 @@ import com.example.calorieguide.ui.dialogs.DialogListener
 import com.example.calorieguide.ui.utils.DatePicker
 import com.example.calorieguide.utils.TimeUtils.toFormattedDate
 import com.example.core.model.Gender
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,16 +47,24 @@ class ProfileFragment : Fragment(), AdapterView.OnItemSelectedListener, DialogLi
             binding.dailyCalorieLimit.setText(it.dailyCalorieLimit.toString())
         }
 
+        val datePickerListener: (timestamp: Long?) -> Unit = {
+            if (it != null) {
+                viewModel.setBirthday(it)
+            }
+        }
+
         binding.birthday.setOnClickListener {
             val datePicker = DatePicker.get(viewModel.birthday.value, false)
             datePicker.addOnPositiveButtonClickListener {
-                if (it != null) {
-                    viewModel.setBirthday(it)
-                }
+                datePickerListener(it)
             }
-
-            datePicker.show(childFragmentManager, "DatePicker")
+            datePicker.show(childFragmentManager, DatePicker.TAG)
         }
+
+        (childFragmentManager.findFragmentByTag(DatePicker.TAG) as? MaterialDatePicker<*>)
+            ?.addOnPositiveButtonClickListener {
+                datePickerListener(it as? Long)
+            }
 
         viewModel.birthday.observe(viewLifecycleOwner) {
             if (it != null) {
