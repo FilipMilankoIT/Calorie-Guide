@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.calorieguide.R
@@ -47,6 +48,29 @@ class FoodListAdapter(
             holder.name.text = item.name
             holder.calories.text = context.getString(R.string.calories_count, item.calories)
             holder.itemLayout.setOnClickListener { onClickListener(item) }
+        }
+    }
+
+    override fun onCurrentListChanged(
+        previousList: PagedList<Food>?,
+        currentList: PagedList<Food>?
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+        if (showDate) {
+            currentList?.forEachIndexed { index, item ->
+                if (index == 0 || item.timestamp.toFormattedDate() !=
+                    currentList[index - 1]?.timestamp?.toFormattedDate()) {
+                    notifyItemChanged(index)
+                }
+            }
+            previousList?.forEachIndexed { index, item ->
+                if (index == 0 || item.timestamp.toFormattedDate() !=
+                    previousList[index - 1]?.timestamp?.toFormattedDate()) {
+                        currentList?.find { it.id == item.id }?.let {
+                            notifyItemChanged(currentList.indexOf(it))
+                        }
+                }
+            }
         }
     }
 }
