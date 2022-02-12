@@ -14,6 +14,20 @@ class AddFoodResponse extends Response {
     }
 
     /**
+     * Creates a 404 response.
+     *
+     * @param {username} username - User's username.
+     * @returns {AddFoodResponse}
+     */
+    static userNotFound(username) {
+        const body = {
+            code: Response.ErrorCode.USERNAME_NOT_FOUND,
+            message: `User ${username} not found.`
+        }
+        return new AddFoodResponse(Response.StatusCode.NOT_FOUND, body)
+    }
+
+    /**
      * Creates a 201 response.
      *
      * @param {Food} Food - Food objet.

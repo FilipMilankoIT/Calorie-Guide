@@ -8,6 +8,7 @@ const {Role} = require('../../model/Role')
 const Food = require('../../model/Food')
 const ErrorCode = require('../../model/api-response/Response').ErrorCode
 const {logError} = require('../../utils/errorUtils')
+const DeleteFoodResponse = require("../../model/api-response/DeleteFoodResponse");
 
 const ALLOWED_ROLES = new Set([Role.ADMIN])
 /**
@@ -36,6 +37,14 @@ module.exports.handler = async (event) => {
     }
 
     try {
+        const userEntity = new UserEntity(process.env.userTable)
+        const user = await userEntity.get(request.username)
+
+        if (!user) {
+            console.error(`Username ${request.username} not found`)
+            return AddFoodResponse.userNotFound(request.username)
+        }
+
         const food = new Food(undefined, request.username, request.name, request.timestamp,
             request.calories)
         const foodEntity = new FoodEntity(process.env.foodTable)
