@@ -262,4 +262,7 @@ internal class RepositoryImpl(
                 RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
             }
         }
+
+    override suspend fun getAllSavedFoodNames(): List<String> =
+        db.foodDao().getAllFoodEntries().map { it.name }
 }

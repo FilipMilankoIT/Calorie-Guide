@@ -51,4 +51,6 @@ interface Repository {
 
     suspend fun getUsersAverageCalories(from: Long, to: Long):
             RepositoryResult<PagedList<UserAverageCalories>>
+
+    suspend fun getAllSavedFoodNames(): List<String>
 }

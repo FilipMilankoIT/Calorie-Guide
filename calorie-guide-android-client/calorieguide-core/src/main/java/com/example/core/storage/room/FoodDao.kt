@@ -9,6 +9,9 @@ import androidx.room.Query
 @Dao
 interface FoodDao {
 
+    @Query("SELECT * FROM food_table")
+    suspend fun getAllFoodEntries(): List<FoodEntity>
+
     @Query("SELECT * FROM food_table WHERE username = :username AND timestamp >= :from AND  timestamp <= :to ORDER BY timestamp DESC")
     fun getFoodEntriesByTimeRange(username: String, from: Long, to: Long): DataSource.Factory<Int, FoodEntity>
 

@@ -20,6 +20,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import android.widget.ArrayAdapter
 
 @AndroidEntryPoint
 class AddFoodDialogFragment : DialogFragment() {
@@ -48,6 +49,14 @@ class AddFoodDialogFragment : DialogFragment() {
         dialog.window?.apply {
             setLayout(resources.getDimension(R.dimen.page_width).toInt(),
                 ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
+            android.R.layout.simple_dropdown_item_1line)
+        binding.name.setAdapter(adapter)
+
+        viewModel.savedFoodNames.observe(this) {
+            if (it != null) adapter.addAll(it)
         }
 
         val timePickerListener: (timePicker: MaterialTimePicker, timestamp: Long) -> Unit =

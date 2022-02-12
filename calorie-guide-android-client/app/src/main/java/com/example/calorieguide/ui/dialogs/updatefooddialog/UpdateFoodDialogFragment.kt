@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -65,6 +66,14 @@ class UpdateFoodDialogFragment : DialogFragment() {
             binding.name.setText(food.name)
             viewModel.setTimeDate(food.timestamp)
             binding.calories.setText(food.calories.toString())
+        }
+
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
+            android.R.layout.simple_dropdown_item_1line)
+        binding.name.setAdapter(adapter)
+
+        viewModel.savedFoodNames.observe(this) {
+            if (it != null) adapter.addAll(it)
         }
 
         val timePickerListener: (timePicker: MaterialTimePicker, timestamp: Long) -> Unit =

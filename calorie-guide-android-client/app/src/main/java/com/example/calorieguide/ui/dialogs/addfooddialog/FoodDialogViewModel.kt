@@ -2,13 +2,18 @@ package com.example.calorieguide.ui.dialogs.addfooddialog
 
 import androidx.lifecycle.*
 import com.example.calorieguide.R
+import com.example.core.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FoodDialogViewModel @Inject constructor() : ViewModel() {
+class FoodDialogViewModel @Inject constructor(val repository: Repository) : ViewModel() {
 
     var selectedDate: Long? = null
+
+    private val _savedFoodNames = MutableLiveData<List<String>>()
+    val savedFoodNames: LiveData<List<String>> = _savedFoodNames
 
     private val _timeDate = MutableLiveData<Long?>()
     val timeDate: LiveData<Long?> = _timeDate
@@ -21,6 +26,12 @@ class FoodDialogViewModel @Inject constructor() : ViewModel() {
 
     private val _caloriesError = MutableLiveData<Int?>(null)
     val caloriesError: LiveData<Int?> = _caloriesError
+
+    init {
+        viewModelScope.launch {
+            _savedFoodNames.value = repository.getAllSavedFoodNames()
+        }
+    }
 
     fun setTimeDate(time: Long) {
         _timeDate.value = time
