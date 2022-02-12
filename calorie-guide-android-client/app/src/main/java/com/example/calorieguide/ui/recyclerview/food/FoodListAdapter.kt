@@ -46,7 +46,7 @@ class FoodListAdapter(
             holder.time.text = item.timestamp.toFormattedTime()
             holder.name.text = item.name
             holder.calories.text = context.getString(R.string.calories_count, item.calories)
-            holder.dateLayout.setOnClickListener { onClickListener(item) }
+            holder.itemLayout.setOnClickListener { onClickListener(item) }
         }
     }
 }

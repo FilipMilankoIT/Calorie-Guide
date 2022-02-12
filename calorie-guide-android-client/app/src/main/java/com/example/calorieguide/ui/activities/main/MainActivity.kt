@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.calorieguide.R
@@ -61,6 +62,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         navView.setupWithNavController(navController)
+        navView.setOnItemSelectedListener {
+            NavigationUI.onNavDestinationSelected(it, navController)
+            true
+        }
+        navView.setOnItemReselectedListener {
+            val reselectedDestinationId = it.itemId
+            navController.popBackStack(reselectedDestinationId, false)
+        }
 
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             when (destination.id) {
@@ -106,10 +115,6 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        appBarConfiguration?.let {
-            return findNavController(R.id.nav_host).navigateUp()
-        }
-        return super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp(): Boolean =
+        findNavController(R.id.nav_host).navigateUp() || super.onSupportNavigateUp()
 }
