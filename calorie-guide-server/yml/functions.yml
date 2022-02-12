@@ -146,6 +146,33 @@ DeleteUser:
             paths:
               username: true
 
+GetUser:
+  handler: src/user-api/lambdas/getUserLambda.handler
+  decription: Lambda function for handling GET user/{username} API requests.
+  environment:
+    userTable: !Ref UserTable
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt UserTable.Arn
+  events:
+    - http:
+        path: v1/users/{username}
+        method: get
+        cors: true
+        authorizer:
+          name: Authorizer
+          resultTtlInSeconds: 3600
+          identitySource: method.request.header.Authorization
+          identityValidationExpression: ${self:provider.tokenRegex}
+          type: token
+        request:
+          parameters:
+            paths:
+              username: true
+
 GetUsers:
   handler: src/user-api/lambdas/getUsersLambda.handler
   decription: Lambda function for handling GET users API requests.

@@ -1865,6 +1865,190 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Get user",
+					"item": [
+						{
+							"name": "Get user with 200 response",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/FilipMilanko",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"FilipMilanko"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get new user with 200 response",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const { v4: uuidv4 } = require('uuid')",
+											"",
+											"const registerUrl = pm.environment.get('host') + '/register'",
+											"",
+											"const body = {",
+											"    username: uuidv4(),",
+											"    password: 'Pass123*'",
+											"}",
+											"",
+											"pm.variables.set('username', body.username)",
+											"",
+											"const registerUserRequest = {",
+											"    url: registerUrl,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    },",
+											"    body: {",
+											"        mode: 'raw',",
+											"        raw: JSON.stringify(body)",
+											"    }",
+											"}",
+											"",
+											"pm.sendRequest(registerUserRequest, (error, result) => {",
+											"    if (error) {",
+											"        console.log(error)",
+											"    } else {",
+											"        console.log(result)",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/{{username}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{username}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user with 404 response for not found user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/{{$guid}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{$guid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {
