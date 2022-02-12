@@ -1,6 +1,7 @@
 package com.example.api
 
 import com.example.api.model.FoodDTO
+import com.example.api.model.UserDTO
 import com.example.api.model.requests.*
 import com.example.api.model.responses.*
 import retrofit2.Response
@@ -13,6 +14,12 @@ internal interface AuthApiRetrofit {
 
     @POST("register")
     suspend fun register(@Body request: RegisterRequestDTO): Response<ResponseDTO>
+
+    @GET("users/{username}")
+    suspend fun getUser(
+        @Header("Authorization") authorization: String,
+        @Path("username") username: String
+    ): Response<UserDTO>
 
     @PATCH("users/{username}")
     suspend fun updateProfile(

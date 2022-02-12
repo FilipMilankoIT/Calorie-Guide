@@ -12,6 +12,6 @@ data class User(
     val dailyCalorieLimit: Int,
     val firstName: String?,
     val lastName: String?,
-    val gender: String?,
+    val gender: Gender?,
     val birthday: Long?
     ): Parcelable

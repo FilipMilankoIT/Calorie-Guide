@@ -3,6 +3,7 @@ package com.example.api
 import android.util.Log
 import com.example.api.model.ApiResult
 import com.example.api.model.FoodDTO
+import com.example.api.model.UserDTO
 import com.example.api.model.requests.*
 import com.example.api.model.responses.*
 import com.google.gson.Gson
@@ -39,6 +40,9 @@ internal class CalorieGuideApiImpl(baseUrl: String): CalorieGuideApi {
 
     override suspend fun register(request: RegisterRequestDTO): ApiResult<ResponseDTO> =
         getResponse { service.register(request) }
+
+    override suspend fun getUser(authorization: String, username: String): ApiResult<UserDTO> =
+        getResponse { service.getUser(authorization, username) }
 
     override suspend fun updateProfile(
         authorization: String,

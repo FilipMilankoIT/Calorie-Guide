@@ -2,6 +2,7 @@ package com.example.api
 
 import com.example.api.model.ApiResult
 import com.example.api.model.FoodDTO
+import com.example.api.model.UserDTO
 import com.example.api.model.requests.*
 import com.example.api.model.responses.*
 
@@ -10,6 +11,11 @@ interface CalorieGuideApi {
     suspend fun login(request: LoginRequestDTO): ApiResult<LoginResponseDTO>
 
     suspend fun register(request: RegisterRequestDTO): ApiResult<ResponseDTO>
+
+    suspend fun getUser(
+        authorization: String,
+        username: String
+    ): ApiResult<UserDTO>
 
     suspend fun updateProfile(
         authorization: String,

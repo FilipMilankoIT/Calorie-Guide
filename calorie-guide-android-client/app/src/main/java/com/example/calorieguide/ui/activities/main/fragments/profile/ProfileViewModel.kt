@@ -46,6 +46,13 @@ class ProfileViewModel @Inject constructor(private val repository: Repository) :
     private val _waiting = SingleLiveEvent<Boolean>()
     val waiting: LiveData<Boolean> = _waiting
 
+    init {
+        viewModelScope.launch {
+            repository.syncProfile()
+            _profile.value = repository.getProfile()
+        }
+    }
+
     fun setGender(gender: Gender) {
         _gender.value = gender
     }

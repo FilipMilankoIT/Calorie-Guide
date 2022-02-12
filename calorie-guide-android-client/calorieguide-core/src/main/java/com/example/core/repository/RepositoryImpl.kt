@@ -82,6 +82,34 @@ internal class RepositoryImpl(
 
     override fun getProfile(): Profile? = dataProvider.readValue(PROFILE_KEY, Profile::class.java)
 
+    override suspend fun syncProfile(): RepositoryResult<Boolean> =
+        when (val result = calorieGuideApi.getUser(getToken() ?: "",
+            getProfile()?.username ?: "")) {
+            is ApiResult.Success -> {
+                val user = result.data.toModel()
+                if (user != null) {
+                    val profile = Profile(
+                        user.username,
+                        user.role,
+                        user.dailyCalorieLimit,
+                        user.firstName,
+                        user.lastName,
+                        user.gender,
+                        user.birthday,
+                    )
+                    dataProvider.writeValue(PROFILE_KEY, profile)
+                    RepositoryResult.Success(true)
+                } else RepositoryResult.UnknownError("")
+            }
+            is ApiResult.Error -> RepositoryResult.Error(result.code, result.message)
+            is ApiResult.NetworkError -> RepositoryResult.NetworkError(result.message)
+            is ApiResult.UnknownError -> RepositoryResult.UnknownError(result.message)
+            is ApiResult.SessionExpired -> {
+                signOut()
+                RepositoryResult.Error(ErrorCode.UNAUTHORIZED.code, "")
+            }
+        }
+
     override suspend fun updateProfile(request: UpdateProfileRequest): RepositoryResult<Response> =
         when (val result = calorieGuideApi.updateProfile(getToken() ?: "",
             request.profile.username, request.toDTO())) {

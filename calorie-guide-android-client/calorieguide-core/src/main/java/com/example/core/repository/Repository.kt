@@ -21,6 +21,8 @@ interface Repository {
 
     fun getProfile(): Profile?
 
+    suspend fun syncProfile(): RepositoryResult<Boolean>
+
     suspend fun updateProfile(request: UpdateProfileRequest): RepositoryResult<Response>
 
     suspend fun deleteUser(): RepositoryResult<Response>
