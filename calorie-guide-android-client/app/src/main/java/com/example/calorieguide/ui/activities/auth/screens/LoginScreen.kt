@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calorieguide.R
 import com.example.calorieguide.ui.activities.auth.fragments.login.LoginViewModel
 import com.example.calorieguide.ui.components.FormPasswordField
-import com.example.calorieguide.ui.components.FormTextField
+import com.example.calorieguide.ui.components.FormField
 import com.example.calorieguide.ui.components.Loader
 import com.example.calorieguide.ui.components.PrimaryButton
 import com.example.calorieguide.ui.theme.MyTheme
@@ -77,7 +77,7 @@ fun LoginScreen(
                     var usernameErrorMessage: String? = null
                     usernameError?.let { usernameErrorMessage = stringResource(it) }
 
-                    FormTextField(
+                    FormField(
                         username,
                         stringResource(R.string.username_label),
                         Modifier.fillMaxWidth(),

@@ -4,32 +4,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.calorieguide.R
 
 @Composable
-fun FormPasswordField(
+fun FormField(
     value: String,
     label: String,
     modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
     error: String? = null,
     onValueChange: (String) -> Unit,
 ) {
-    CoreFormField(
-        value,
-        label,
-        modifier,
-        KeyboardType.Password,
-        R.drawable.show,
-        error,
-        onValueChange
-    )
+    CoreFormField(value, label, modifier,keyboardType, null, error, onValueChange)
 }
 
 @Preview
 @Composable
-fun FormPasswordFieldPreview() {
-    FormPasswordField(
-        "12345",
-        "Password"
-    ) { }
+fun FormTextFieldPreview() {
+    FormField("my@mail.com", "Email") { }
 }
