@@ -54,6 +54,7 @@ android {
     }
 
     buildFeatures {
+        compose true
         viewBinding true
     }
 
@@ -64,6 +65,10 @@ android {
     lintOptions {
         disable 'NullSafeMutableLiveData'
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
 }
 
 dependencies {
@@ -73,6 +78,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(path: ':calorieguide-core')
+    implementation 'androidx.window:window:1.1.0-alpha01'
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
@@ -81,6 +87,18 @@ dependencies {
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui:$rootProject.composeVersion"
+    implementation "androidx.compose.ui:ui-tooling:$rootProject.composeVersion"
+    implementation "androidx.compose.ui:ui-tooling-preview:$rootProject.composeVersion"
+    implementation "androidx.compose.foundation:foundation:$rootProject.composeVersion"
+    implementation "androidx.compose.material:material:$rootProject.composeVersion"
+    implementation "androidx.compose.animation:animation:$rootProject.composeVersion"
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    implementation "androidx.compose.runtime:runtime-livedata:$rootProject.composeVersion"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$rootProject.composeVersion"
 
     // Testing
     testImplementation "junit:junit:$junit"

@@ -7,8 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_sign_in"
-        android:name="com.example.calorieguide.ui.activities.auth.fragments.login.LoginFragment"
-        tools:layout="@layout/fragment_login" >
+        android:name="com.example.calorieguide.ui.activities.auth.fragments.login.LoginFragment">
         <action
             android:id="@+id/action_login_to_register"
             app:destination="@id/navigation_sign_up"
