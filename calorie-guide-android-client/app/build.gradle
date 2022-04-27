@@ -85,43 +85,52 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     // Jetpack Compose
-    implementation "androidx.compose.ui:ui:$rootProject.composeVersion"
-    implementation "androidx.compose.ui:ui-tooling:$rootProject.composeVersion"
-    implementation "androidx.compose.ui:ui-tooling-preview:$rootProject.composeVersion"
-    implementation "androidx.compose.foundation:foundation:$rootProject.composeVersion"
-    implementation "androidx.compose.material:material:$rootProject.composeVersion"
-    implementation "androidx.compose.animation:animation:$rootProject.composeVersion"
+    implementation "androidx.compose.ui:ui:$composeVersion"
+    implementation "androidx.compose.ui:ui-tooling:$composeVersion"
+    implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+    implementation "androidx.compose.foundation:foundation:$composeVersion"
+    implementation "androidx.compose.material:material:$composeVersion"
+    implementation "androidx.compose.animation:animation:$composeVersion"
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
-    implementation "androidx.compose.runtime:runtime-livedata:$rootProject.composeVersion"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$rootProject.composeVersion"
+    implementation "androidx.compose.runtime:runtime-livedata:$composeVersion"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeVersion"
 
     // Testing
+    def testRunnerVersion = '1.4.0'
+    def archTestingVersion = '2.1.0'
+    def junitAndroidEspresso = '3.4.0'
     testImplementation "junit:junit:$junit"
+    testImplementation "androidx.test:core-ktx:$testRunnerVersion"
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.3'
     androidTestImplementation "androidx.test.ext:junit:$junitAndroidExt"
+    testImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    testImplementation 'org.mockito:mockito-core:3.10.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$junitAndroidEspresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$junitAndroidEspresso"
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    androidTestImplementation "androidx.test:runner:1.4.0"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
     androidTestUtil "androidx.test:orchestrator:1.4.1"
 
     // Gson
     implementation "com.google.code.gson:gson:$gson"
 
     // Hilt core
-    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
     //Preference
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     // Splashscreen
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     // Room
-    implementation "androidx.paging:paging-runtime-ktx:2.1.2"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 }

@@ -13,7 +13,6 @@ buildscript {
 
         junit = '4.13.2'
         junitAndroidExt = '1.1.3'
-        junitAndroidEspresso = '3.4.0'
 
         archLifecycleVersion = '2.4.0'
 
